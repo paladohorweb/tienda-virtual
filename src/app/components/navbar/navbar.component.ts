@@ -1,6 +1,7 @@
 import { Component, ViewChild, ElementRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
+import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-navbar',
@@ -11,6 +12,18 @@ import { RouterModule } from '@angular/router';
 })
 export class NavbarComponent {
   @ViewChild('navbarNav', { static: false }) navbarNav!: ElementRef;
+  isAuthenticated = false;
+
+
+  constructor(private authService: AuthService) {
+    this.authService.getAuthStatus().subscribe(status => {
+      this.isAuthenticated = status;
+    });
+  }
+
+  logout() {
+    this.authService.logout();
+  }
 
   toggleNavbar() {
     const navbar = this.navbarNav.nativeElement;

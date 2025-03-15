@@ -9,7 +9,12 @@
         <li class="nav-item"><a class="nav-link" routerLink="/" (click)="closeNavbar()">Inicio</a></li>
         <li class="nav-item"><a class="nav-link" routerLink="/products" (click)="closeNavbar()">Productos</a></li>
         <li class="nav-item"><a class="nav-link" routerLink="/cart" (click)="closeNavbar()">Carrito</a></li>
-        <li class="nav-item"><a class="nav-link" routerLink="/login" (click)="closeNavbar()">Ingresar</a></li>
+        <li class="nav-item" *ngIf="!isAuthenticated">
+          <a class="nav-link" routerLink="/login">Ingresar</a>
+        </li>
+        <li class="nav-item" *ngIf="isAuthenticated">
+          <a class="nav-link" (click)="logout()">Cerrar sesión</a>
+        </li>
       </ul>
     </div>
   </div>
