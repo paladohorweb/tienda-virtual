@@ -1,6 +1,9 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { CartService } from '../../services/cart.service';
+// Importamos Bootstrap
+import { Modal } from 'bootstrap';
+import { Router } from '@angular/router'; // Importamos Router
 
 // Definir la estructura de un producto
 interface Product {
@@ -43,10 +46,33 @@ export class ProductsComponent {
     }
   ];
 
-  constructor(private cartService: CartService) {}
+
+
+
+  selectedProduct: Product | null = null; // Producto seleccionado
+  private modal: Modal | null = null; // Referencia al modal
+
+
+  constructor(private cartService: CartService, private router: Router) {}
+
+  ngAfterViewInit() {
+    this.modal = new Modal(document.getElementById('confirmModal')!);
+  }
 
   addToCart(product: Product) {
     this.cartService.addToCart({ ...product, quantity: 1 });
+    this.selectedProduct = product;
+    this.modal?.show(); // Mostramos el modal
+  }
+
+
+  getQuantity(productId: number): number {
+    return this.cartService.getQuantity(productId);
+  }
+
+  goToCart() {
+    this.modal?.hide(); // Cerramos el modal antes de navegar
+    this.router.navigate(['/cart']);
   }
 }
 

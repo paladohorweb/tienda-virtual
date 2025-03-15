@@ -13,13 +13,27 @@
       <tr *ngFor="let item of cartItems$ | async">
         <td>{{ item.name }}</td>
         <td>{{ item.price | currency }}</td>
-        <td>{{ item.quantity }}</td>
+        <td>
+          <input type="number" [value]="item.quantity"
+          (change)="updateQuantityFromEvent($event, item.id)"
+                 class="form-control" min="1">
+        </td>
         <td>
           <button class="btn btn-danger" (click)="removeItem(item.id)">Eliminar</button>
         </td>
       </tr>
     </tbody>
   </table>
+
+  <!-- 🔹 Resumen de compra -->
+  <div class="card p-3 mt-4">
+    <h4>Resumen de Compra</h4>
+    <p>Subtotal: <strong>{{ subtotal | currency }}</strong></p>
+    <p>Impuestos (19%): <strong>{{ taxes | currency }}</strong></p>
+    <p>Total a pagar: <strong>{{ total | currency }}</strong></p>
+  </div>
+
+  <button class="btn btn-warning mt-3" (click)="clearCart()">Vaciar Carrito</button>
 </div>
 
 
