@@ -11,6 +11,8 @@ import { NgFor } from '@angular/common'; // 👈 Importa NgFor
   templateUrl: './product-list.component.html',
   styleUrl: './product-list.component.css'
 })
+
+
 export class ProductListComponent  implements OnInit{
   products: Product[] = [];
 
