@@ -1,58 +1,48 @@
 <div class="container mt-4">
-  <!-- Carrusel de imágenes -->
-  <div id="carouselExample" class="carousel slide" data-bs-ride="carousel">
+  <!-- Carrusel de productos destacados -->
+  <div id="featuredCarousel" class="carousel slide" data-bs-ride="carousel">
     <div class="carousel-inner">
       <div class="carousel-item active">
-        <img src="https://via.placeholder.com/1200x400" class="d-block w-100" alt="Oferta 1">
+        <img src="assets/img/featured1.jpg" class="d-block w-100" alt="Producto destacado 1">
       </div>
       <div class="carousel-item">
-        <img src="https://via.placeholder.com/1200x400" class="d-block w-100" alt="Oferta 2">
+        <img src="assets/img/featured2.jpg" class="d-block w-100" alt="Producto destacado 2">
       </div>
       <div class="carousel-item">
-        <img src="https://via.placeholder.com/1200x400" class="d-block w-100" alt="Oferta 3">
+        <img src="assets/img/featured3.jpg" class="d-block w-100" alt="Producto destacado 3">
       </div>
     </div>
-    <button class="carousel-control-prev" type="button" data-bs-target="#carouselExample" data-bs-slide="prev">
-      <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-      <span class="visually-hidden">Anterior</span>
+    <button class="carousel-control-prev" type="button" data-bs-target="#featuredCarousel" data-bs-slide="prev">
+      <span class="carousel-control-prev-icon"></span>
     </button>
-    <button class="carousel-control-next" type="button" data-bs-target="#carouselExample" data-bs-slide="next">
-      <span class="carousel-control-next-icon" aria-hidden="true"></span>
-      <span class="visually-hidden">Siguiente</span>
+    <button class="carousel-control-next" type="button" data-bs-target="#featuredCarousel" data-bs-slide="next">
+      <span class="carousel-control-next-icon"></span>
     </button>
   </div>
 
-  <!-- Accesos rápidos a categorías -->
-  <div class="row text-center mt-4">
-    <div class="col-md-4">
-      <div class="card">
-        <div class="card-body">
-          <h5 class="card-title">Categoría 1</h5>
-          <a routerLink="/products" class="btn btn-primary">Ver productos</a>
-        </div>
-      </div>
-    </div>
-    <div class="col-md-4">
-      <div class="card">
-        <div class="card-body">
-          <h5 class="card-title">Categoría 2</h5>
-          <a routerLink="/products" class="btn btn-primary">Ver productos</a>
-        </div>
-      </div>
-    </div>
-    <div class="col-md-4">
-      <div class="card">
-        <div class="card-body">
-          <h5 class="card-title">Categoría 3</h5>
-          <a routerLink="/products" class="btn btn-primary">Ver productos</a>
-        </div>
-      </div>
-    </div>
-  </div>
+  <!-- Sección de bienvenida -->
+  <section class="text-center mt-5">
+    <h1 class="fw-bold">¡Bienvenido a nuestra tienda virtual!</h1>
+    <p class="text-muted">Descubre los mejores productos con descuentos exclusivos.</p>
+    <a routerLink="/products" class="btn btn-primary btn-lg">Ver todos los productos</a>
+  </section>
 
-  <!-- Sección de información sobre la tienda -->
-  <div class="mt-5 text-center">
-    <h2>Sobre Nuestra Tienda</h2>
-    <p>Ofrecemos los mejores productos al mejor precio. Calidad garantizada.</p>
-  </div>
+  <!-- Productos destacados -->
+  <section class="mt-5">
+    <h2 class="mb-4 text-center">Productos Destacados</h2>
+    <div class="row row-cols-1 row-cols-md-3 g-4">
+      <div class="col" *ngFor="let product of featuredProducts">
+        <div class="card h-100">
+          <img [src]="product.image" class="card-img-top" [alt]="product.name">
+          <div class="card-body text-center">
+            <h5 class="card-title">{{ product.name }}</h5>
+            <p class="card-text text-muted">{{ product.description }}</p>
+            <p class="fw-bold">{{ product.price | currency }}</p>
+            <a routerLink="/products" class="btn btn-outline-primary">Ver más</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
 </div>
+
