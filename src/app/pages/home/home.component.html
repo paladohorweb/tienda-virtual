@@ -1,1 +1,58 @@
-<p>home works!</p>
+<div class="container mt-4">
+  <!-- Carrusel de imágenes -->
+  <div id="carouselExample" class="carousel slide" data-bs-ride="carousel">
+    <div class="carousel-inner">
+      <div class="carousel-item active">
+        <img src="https://via.placeholder.com/1200x400" class="d-block w-100" alt="Oferta 1">
+      </div>
+      <div class="carousel-item">
+        <img src="https://via.placeholder.com/1200x400" class="d-block w-100" alt="Oferta 2">
+      </div>
+      <div class="carousel-item">
+        <img src="https://via.placeholder.com/1200x400" class="d-block w-100" alt="Oferta 3">
+      </div>
+    </div>
+    <button class="carousel-control-prev" type="button" data-bs-target="#carouselExample" data-bs-slide="prev">
+      <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+      <span class="visually-hidden">Anterior</span>
+    </button>
+    <button class="carousel-control-next" type="button" data-bs-target="#carouselExample" data-bs-slide="next">
+      <span class="carousel-control-next-icon" aria-hidden="true"></span>
+      <span class="visually-hidden">Siguiente</span>
+    </button>
+  </div>
+
+  <!-- Accesos rápidos a categorías -->
+  <div class="row text-center mt-4">
+    <div class="col-md-4">
+      <div class="card">
+        <div class="card-body">
+          <h5 class="card-title">Categoría 1</h5>
+          <a routerLink="/products" class="btn btn-primary">Ver productos</a>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-4">
+      <div class="card">
+        <div class="card-body">
+          <h5 class="card-title">Categoría 2</h5>
+          <a routerLink="/products" class="btn btn-primary">Ver productos</a>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-4">
+      <div class="card">
+        <div class="card-body">
+          <h5 class="card-title">Categoría 3</h5>
+          <a routerLink="/products" class="btn btn-primary">Ver productos</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Sección de información sobre la tienda -->
+  <div class="mt-5 text-center">
+    <h2>Sobre Nuestra Tienda</h2>
+    <p>Ofrecemos los mejores productos al mejor precio. Calidad garantizada.</p>
+  </div>
+</div>

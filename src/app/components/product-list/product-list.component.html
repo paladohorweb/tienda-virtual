@@ -1,1 +1,19 @@
-<p>product-list works!</p>
+<div class="container">
+  <h2 class="my-4">Lista de Productos</h2>
+  <div class="row">
+    <div class="col-md-4" *ngFor="let product of products">
+      <div class="card">
+        <img [src]="product.image" class="card-img-top" alt="{{ product.name }}">
+        <div class="card-body">
+          <h5 class="card-title">{{ product.name }}</h5>
+          <p class="card-text">{{ product.description }}</p>
+          <p class="card-text"><strong>Precio:</strong> ${{ product.price }}</p>
+          <button class="btn btn-primary">
+            <i class="fas fa-shopping-cart"></i> Agregar al carrito
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
