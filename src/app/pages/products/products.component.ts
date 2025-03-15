@@ -1,32 +1,54 @@
-import { Component, OnInit } from '@angular/core';
-import { CartService } from '../../services/cart.service'; // Ajusta la ruta si es necesario
-import { ProductListComponent } from '../../components/product-list/product-list.component';
-import { Product } from '../../models/product.model';
+import { Component } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { CartService } from '../../services/cart.service';
 
-
-
-
+// Definir la estructura de un producto
+interface Product {
+  id: number;
+  name: string;
+  price: number;
+  image: string;
+  description: string;
+}
 
 @Component({
   selector: 'app-products',
   standalone: true,
-  imports: [ProductListComponent],
+  imports: [CommonModule],
   templateUrl: './products.component.html',
   styleUrls: ['./products.component.css']
 })
-export class ProductsComponent implements OnInit {
+export class ProductsComponent {
   products: Product[] = [
-    { id: 1, name: 'Producto 1', description: 'Descripción 1', price: 100, image: 'https://via.placeholder.com/150' },
-    { id: 2, name: 'Producto 2', description: 'Descripción 2', price: 200, image: 'https://via.placeholder.com/150' },
-    { id: 3, name: 'Producto 3', description: 'Descripción 3', price: 300, image: 'https://via.placeholder.com/150' }
+    {
+      id: 1,
+      name: 'Laptop Gamer',
+      price: 1500,
+      image: 'assets/laptop.jpg',
+      description: 'Laptop potente para gaming y trabajo.'
+    },
+    {
+      id: 2,
+      name: 'Teclado Mecánico',
+      price: 80,
+      image: 'assets/keyboard.jpg',
+      description: 'Teclado mecánico RGB con switches azules.'
+    },
+    {
+      id: 3,
+      name: 'Mouse Inalámbrico',
+      price: 50,
+      image: 'assets/mouse.jpg',
+      description: 'Mouse ergonómico inalámbrico con sensor óptico.'
+    }
   ];
 
   constructor(private cartService: CartService) {}
-
-  ngOnInit(): void {}
 
   addToCart(product: Product) {
     this.cartService.addToCart({ ...product, quantity: 1 });
   }
 }
+
+
 

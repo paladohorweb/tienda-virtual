@@ -1,4 +1,19 @@
 <div class="container">
-  <h1>Productos</h1>
-  <app-product-list></app-product-list>
+  <h1 class="my-4">Productos</h1>
+
+  <div class="row">
+    <div class="col-md-4" *ngFor="let product of products">
+      <div class="card mb-4">
+        <img [src]="product.image" class="card-img-top" alt="{{ product.name }}">
+        <div class="card-body">
+          <h5 class="card-title">{{ product.name }}</h5>
+          <p class="card-text">{{ product.description }}</p>
+          <p class="card-text"><strong>{{ product.price | currency }}</strong></p>
+          <button class="btn btn-primary" (click)="addToCart(product)">Agregar al carrito</button>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
+
+
