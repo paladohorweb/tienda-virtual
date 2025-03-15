@@ -10,7 +10,7 @@
       </tr>
     </thead>
     <tbody>
-      <tr *ngFor="let item of cartItems">
+      <tr *ngFor="let item of cartItems | async">
         <td>{{ item.name }}</td>
         <td>{{ item.price | currency }}</td>
         <td>{{ item.quantity }}</td>
