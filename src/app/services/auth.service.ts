@@ -26,13 +26,13 @@ export class AuthService {
   }
   /** 🔹 Cerrar sesión */
   logout() {
-    localStorage.removeItem(this.authTokenKey);
+    sessionStorage.removeItem(this.authTokenKey); // Usa sessionStorage si ahí guardaste el token
     this.isLoggedInSubject.next(false);
   }
 
   /** 🔹 Obtener token almacenado */
   getToken(): string | null {
-    return localStorage.getItem(this.authTokenKey);
+    return sessionStorage.getItem(this.authTokenKey);
   }
 
   /** 🔹 Saber si el usuario está autenticado */
