@@ -5,6 +5,7 @@ import { Observable } from 'rxjs';
 import { CartItem } from '../../models/cart-item.model';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
+import { CheckoutService } from '../../services/checkout.service';
 
 @Component({
   selector: 'app-cart',
@@ -20,7 +21,11 @@ export class CartComponent {
   taxes = 0;
   total = 0;
 
-  constructor(private cartService: CartService, private router: Router) {
+  constructor(
+    private cartService: CartService,
+    private checkoutService: CheckoutService,
+    private router: Router
+  ) {
     this.cartItems$ = this.cartService.getCartItems();
 
     // Escuchar cambios en el carrito y actualizar el resumen
@@ -69,9 +74,27 @@ export class CartComponent {
     }
   }
 
-  /** Redirige al usuario a la página de checkout */
+  /** Procesa la compra y navega a la página de confirmación */
   finalizarCompra() {
-    this.router.navigate(['/checkout']);
+    this.cartItems$.subscribe(items => {
+      if (items.length === 0) {
+        alert('El carrito está vacío. Agrega productos antes de continuar.');
+        return;
+      }
+
+      this.checkoutService.procesarPago(items).subscribe({
+        next: (response) => {
+          alert('Compra realizada con éxito');
+          this.cartService.clearCart();
+          this.router.navigate(['/checkout']);
+        },
+        error: (error) => {
+          console.error('Error al procesar el pago:', error);
+          alert('Hubo un problema al procesar el pago. Inténtalo de nuevo.');
+        }
+      });
+    });
   }
 }
+
 
