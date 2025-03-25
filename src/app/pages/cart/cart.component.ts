@@ -4,6 +4,7 @@ import { CartService } from '../../services/cart.service';
 import { Observable } from 'rxjs';
 import { CartItem } from '../../models/cart-item.model';
 import { FormsModule } from '@angular/forms';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-cart',
@@ -13,12 +14,13 @@ import { FormsModule } from '@angular/forms';
   imports: [CommonModule, FormsModule],
 })
 export class CartComponent {
+
   cartItems$: Observable<CartItem[]>; // Observable de los ítems del carrito
   subtotal = 0;
   taxes = 0;
   total = 0;
 
-  constructor(private cartService: CartService) {
+  constructor(private cartService: CartService, private router: Router) {
     this.cartItems$ = this.cartService.getCartItems();
 
     // Escuchar cambios en el carrito y actualizar el resumen
@@ -65,6 +67,11 @@ export class CartComponent {
       inputElement.value = '1'; // Evita valores negativos o vacíos
       this.updateQuantity(productId, 1);
     }
+  }
+
+  /** Redirige al usuario a la página de checkout */
+  finalizarCompra() {
+    this.router.navigate(['/checkout']);
   }
 }
 

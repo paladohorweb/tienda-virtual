@@ -1,18 +1,10 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { CartService } from '../../services/cart.service';
-// Importamos Bootstrap
+import { ProductService } from '../../services/product.service';
 import { Modal } from 'bootstrap';
-import { Router } from '@angular/router'; // Importamos Router
-
-// Definir la estructura de un producto
-interface Product {
-  id: number;
-  name: string;
-  price: number;
-  image: string;
-  description: string;
-}
+import { Router } from '@angular/router';
+import { Product } from '../../models/product.model'; // Importamos la interfaz
 
 @Component({
   selector: 'app-products',
@@ -21,60 +13,52 @@ interface Product {
   templateUrl: './products.component.html',
   styleUrls: ['./products.component.css']
 })
-export class ProductsComponent {
-  products: Product[] = [
-    {
-      id: 1,
-      name: 'Laptop Gamer',
-      price: 1500,
-      image: 'assets/laptop.jpg',
-      description: 'Laptop potente para gaming y trabajo.'
-    },
-    {
-      id: 2,
-      name: 'Teclado Mecánico',
-      price: 80,
-      image: 'assets/keyboard.jpg',
-      description: 'Teclado mecánico RGB con switches azules.'
-    },
-    {
-      id: 3,
-      name: 'Mouse Inalámbrico',
-      price: 50,
-      image: 'assets/mouse.jpg',
-      description: 'Mouse ergonómico inalámbrico con sensor óptico.'
-    }
-  ];
-
-
-
-
-  selectedProduct: Product | null = null; // Producto seleccionado
+export class ProductsComponent implements OnInit {
+  products: Product[] = []; // Almacena los productos obtenidos del backend
+  selectedProduct: Product | null = null; // Producto seleccionado para el modal
   private modal: Modal | null = null; // Referencia al modal
 
+  constructor(
+    private cartService: CartService,
+    private productService: ProductService,
+    private router: Router
+  ) {}
 
-  constructor(private cartService: CartService, private router: Router) {}
+  ngOnInit() {
+    this.loadProducts(); // Cargamos los productos al iniciar el componente
+  }
 
   ngAfterViewInit() {
     this.modal = new Modal(document.getElementById('confirmModal')!);
   }
 
+  /** Carga los productos desde el backend */
+  private loadProducts() {
+    this.productService.getProducts().subscribe({
+      next: (data) => this.products = data,
+      error: (err) => console.error('Error al obtener productos:', err)
+    });
+  }
+
+  /** Agrega un producto al carrito */
   addToCart(product: Product) {
     this.cartService.addToCart({ ...product, quantity: 1 });
     this.selectedProduct = product;
-    this.modal?.show(); // Mostramos el modal
+    this.modal?.show(); // Mostramos el modal de confirmación
   }
 
-
+  /** Obtiene la cantidad de un producto en el carrito */
   getQuantity(productId: number): number {
     return this.cartService.getQuantity(productId);
   }
 
+  /** Navega al carrito */
   goToCart() {
     this.modal?.hide(); // Cerramos el modal antes de navegar
     this.router.navigate(['/cart']);
   }
 }
+
 
 
 

@@ -8,5 +8,6 @@ export const appRoutes: Routes = [
   { path: 'home', component: HomeComponent }, // Ruta para la página de inicio
   { path: 'products', loadComponent: () => import('./pages/products/products.component').then(m => m.ProductsComponent) },
   { path: 'cart', loadComponent: () => import('./pages/cart/cart.component').then(m => m.CartComponent) }, // Agrega la ruta del carrito
+  { path: 'checkout', loadComponent: () => import('./pages/checkout/checkout.component').then(m => m.CheckoutComponent) }, // ✅ Agrega esta línea
   { path: '**', redirectTo: 'home' } // Manejo de rutas no encontradas
 ];
