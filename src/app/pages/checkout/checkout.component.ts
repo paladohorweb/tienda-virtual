@@ -1,8 +1,9 @@
 import { Component } from '@angular/core';
-import { PagoService, MetodoPago, Pago } from '../../services/pago.service';
+import { Pago } from '../../services/pago.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { CheckoutService } from '../../services/checkout.service';
 
 @Component({
   selector: 'app-checkout',
@@ -13,48 +14,35 @@ import { FormsModule } from '@angular/forms';
 })
 export class CheckoutComponent {
   pedidoId!: number;
-  total: number = 0;
-  metodoPago!: MetodoPago;
-  metodosPago = Object.values(MetodoPago);
-  procesandoPago = false;
-  mensajePago = '';
-  pagoExitoso = false;
+  metodoPago: string = '';
+  pagoRealizado: boolean = false;
+  mensaje: string = '';
 
-  constructor(private pagoService: PagoService, private route: ActivatedRoute, private router: Router) {}
+  metodosPago = ['MASTERCARD_DEBITO', 'MASTERCARD_CREDITO', 'PAYPAL', 'TRANSFERENCIA_BANCARIA'];
 
-  ngOnInit() {
-    this.pedidoId = Number(this.route.snapshot.paramMap.get('pedidoId'));
-    this.total = Number(this.route.snapshot.queryParamMap.get('total'));
+  constructor(
+    private checkoutService: CheckoutService,
+    private route: ActivatedRoute,
+    private router: Router
+  ) {
+    this.pedidoId = Number(this.route.snapshot.paramMap.get('id'));
   }
 
   procesarPago() {
     if (!this.metodoPago) {
-      this.mensajePago = '❌ Seleccione un método de pago.';
-      this.pagoExitoso = false;
+      this.mensaje = 'Selecciona un método de pago';
       return;
     }
 
-    this.procesandoPago = true;
-    this.mensajePago = '';
-
-    this.pagoService.procesarPago(this.pedidoId, this.metodoPago).subscribe({
+    this.checkoutService.procesarCheckout(this.pedidoId, this.metodoPago).subscribe({
       next: (pago: Pago) => {
-        this.pagoExitoso = pago.estado === 'COMPLETADO';
-        this.mensajePago = this.pagoExitoso
-          ? '✅ Pago realizado con éxito.'
-          : '⚠️ El pago está pendiente de confirmación.';
-        this.procesandoPago = false;
-
-        if (this.pagoExitoso) {
-          setTimeout(() => this.router.navigate(['/']), 3000);
-        }
+        this.pagoRealizado = true;
+        this.mensaje = 'Pago realizado con éxito';
+        setTimeout(() => this.router.navigate(['/']), 3000); // Redirigir después de 3s
       },
-      error: () => {
-        this.mensajePago = '❌ Error al procesar el pago.';
-        this.pagoExitoso = false;
-        this.procesandoPago = false;
-      }
+      error: (err) => {
+        this.mensaje = 'Error al procesar el pago: ' + err.error;
+      },
     });
   }
 }
-

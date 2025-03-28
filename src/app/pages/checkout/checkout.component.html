@@ -1,30 +1,17 @@
-<h2>Finalizar Compra</h2>
+<div class="container mt-4">
+  <h2>Finalizar Compra</h2>
+  <p>Pedido ID: {{ pedidoId }}</p>
 
-<!-- Resumen del pedido -->
-<div class="card p-3 mb-3">
-  <h4>Resumen del pedido</h4>
-  <p><strong>Total:</strong> {{ total | currency }}</p>
-</div>
+  <label for="metodoPago">Selecciona un método de pago:</label>
+  <select [(ngModel)]="metodoPago" class="form-control">
+    <option *ngFor="let metodo of metodosPago" [value]="metodo">{{ metodo }}</option>
+  </select>
 
-<!-- Formulario de pago -->
-<form (ngSubmit)="procesarPago()">
-  <div class="mb-3">
-    <label for="metodoPago" class="form-label"><strong>Método de Pago</strong></label>
-    <select class="form-select" id="metodoPago" [(ngModel)]="metodoPago" name="metodoPago" required>
-      <option *ngFor="let metodo of metodosPago" [value]="metodo">
-        {{ metodo }}
-      </option>
-    </select>
+  <button class="btn btn-primary mt-3" (click)="procesarPago()">Pagar</button>
+
+  <div *ngIf="mensaje" class="alert mt-3" [ngClass]="pagoRealizado ? 'alert-success' : 'alert-danger'">
+    {{ mensaje }}
   </div>
-
-  <button type="submit" class="btn btn-primary" [disabled]="procesandoPago">
-    <span *ngIf="!procesandoPago">Pagar</span>
-    <span *ngIf="procesandoPago">Procesando...</span>
-  </button>
-</form>
-
-<!-- Mensaje de éxito o error -->
-<div *ngIf="mensajePago" class="alert" [ngClass]="{'alert-success': pagoExitoso, 'alert-danger': !pagoExitoso}">
-  {{ mensajePago }}
 </div>
+
 

@@ -1,0 +1,38 @@
+<div class="container mt-4">
+  <h2>Mis Pedidos</h2>
+
+  <div *ngIf="pedidos.length === 0">
+    <p>No tienes pedidos aún.</p>
+  </div>
+
+  <div class="table-responsive">
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>Fecha</th>
+          <th>Estado</th>
+          <th>Total</th>
+          <th>Acciones</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let pedido of pedidos">
+          <td>{{ pedido.id }}</td>
+          <td>{{ pedido.fechaPedido | date:'short' }}</td>
+          <td>{{ pedido.estado }}</td>
+          <td>${{ pedido.total | number:'1.2-2' }}</td>
+          <td>
+            <button
+              *ngIf="pedido.estado === 'PENDIENTE'"
+              class="btn btn-danger btn-sm"
+              (click)="cancelarPedido(pedido.id)"
+            >
+              Cancelar
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

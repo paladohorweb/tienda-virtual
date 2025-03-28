@@ -1,0 +1,22 @@
+<div class="container mt-4">
+  <h2>Productos</h2>
+
+  <input type="text" [(ngModel)]="filtro" (input)="filtrarProductos()" class="form-control mb-3"
+    placeholder="Buscar productos...">
+
+  <div class="row">
+    <div class="col-md-4" *ngFor="let producto of productosFiltrados">
+      <div class="card">
+        <img [src]="producto.imagen" class="card-img-top" alt="{{ producto.nombre }}">
+        <div class="card-body">
+          <h5 class="card-title">{{ producto.nombre }}</h5>
+          <p class="card-text">{{ producto.descripcion }}</p>
+          <p class="text-success"><b>${{ producto.precio }}</b></p>
+          <button class="btn btn-primary" (click)="agregarAlCarrito(producto)">Agregar al carrito</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
