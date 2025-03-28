@@ -3,7 +3,7 @@
 
   <!-- Tabla de productos en el carrito -->
   <div class="table-responsive">
-    <table *ngIf="carrito.items.length > 0" class="table">
+    <table *ngIf="carrito?.items" class="table">
       <thead>
         <tr>
           <th>Producto</th>
@@ -14,7 +14,7 @@
         </tr>
       </thead>
       <tbody>
-        <tr *ngFor="let item of carrito.items">
+        <tr *ngFor="let item of carrito?.items">
           <td>{{ item.producto.nombre }}</td>
           <td>${{ item.producto.precio }}</td>
           <td>{{ item.cantidad }}</td>
@@ -27,12 +27,17 @@
     </table>
 
     <div class="text-end">
-      <p><b>Total:</b> ${{ carrito.total }}</p>
+      <p><b>Total:</b> ${{ carrito?.total }}</p>
       <button class="btn btn-warning" (click)="vaciarCarrito()">Vaciar carrito</button>
       <button class="btn btn-success" routerLink="/checkout">Finalizar compra</button>
     </div>
   </div>
   </div>
+
+
+  <ng-template #loading>
+    <p>Cargando carrito...</p>
+  </ng-template>
 
   <!-- Resumen de compra -->
 

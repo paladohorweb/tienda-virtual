@@ -15,8 +15,11 @@ import { FormsModule } from '@angular/forms';
   templateUrl: './productos.component.html'
 })
 export class ProductosComponent implements OnInit {
-agregarAlCarrito(_t10: Producto) {
-throw new Error('Method not implemented.');
+
+
+agregarAlCarrito(producto: Producto) {
+  console.log("Producto agregado:", producto);
+  // Aquí deberías llamar a un servicio de carrito
 }
   productos: Producto[] = [];
   productosFiltrados: Producto[] = [];
@@ -31,6 +34,7 @@ throw new Error('Method not implemented.');
   obtenerProductos() {
     this.productoService.obtenerProductos().subscribe((data) => {
       this.productos = data;
+      this.productosFiltrados = data;  // 🔹 Inicializa los productos filtrados
     });
   }
 

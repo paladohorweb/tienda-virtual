@@ -4,6 +4,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Carrito } from '../../models/carrito.model';
 import { CarritoService } from '../../services/carrito.service';
+import { Rol } from '../../models/usuario.model';
 
 @Component({
   selector: 'app-carrito',
@@ -12,8 +13,7 @@ import { CarritoService } from '../../services/carrito.service';
   imports: [CommonModule, FormsModule],
 })
 export class CarritoComponent implements OnInit {
-  carrito: any = { items: [] }; // 🔹 Evitamos 'undefined'
-
+  carrito: Carrito | null = null;  // Inicia como null para evitar errores de acceso a "items"
   constructor(private carritoService: CarritoService) {}
 
   ngOnInit(): void {
@@ -23,11 +23,19 @@ export class CarritoComponent implements OnInit {
   cargarCarrito(): void {
     this.carritoService.obtenerCarrito().subscribe({
       next: (data) => {
-        this.carrito = data || { items: [] };
+        this.carrito = { id: 0, usuario: {
+          id: 0, email: '',
+          password: '',
+          rol: Rol.ADMIN
+        }, items: [], total: 0 };
       },
       error: (err) => {
         console.error('Error al obtener el carrito:', err);
-        this.carrito = { items: [] }; // 🔹 Evita fallos en la plantilla
+        this.carrito = { id: 0, usuario: {
+          id: 0, email: '',
+          password: '',
+          rol: Rol.ADMIN
+        }, items: [], total: 0 };
       }
     });
   }
@@ -40,7 +48,9 @@ export class CarritoComponent implements OnInit {
 
   vaciarCarrito() {
     this.carritoService.vaciarCarrito().subscribe(() => {
-      this.carrito.items = [];
+      if (this.carrito) {
+        this.carrito.items = [];
+      }
     });
   }
 }

@@ -2,7 +2,7 @@ import { ApplicationConfig } from '@angular/core';
 import { provideRouter, Routes } from '@angular/router';
 import { HomeComponent } from './pages/home/home.component';
 import { ProductosComponent } from './pages/products/productos.component';
-import { CarritoComponent } from './pages/cart/Carrito.component';
+import { CarritoComponent } from './pages/cart/carrito.component';
 import { CheckoutComponent } from './pages/checkout/checkout.component';
 import { LoginComponent } from './pages/auth/login/login.component';
 import { RegisterComponent } from './pages/auth/register/register.component';
