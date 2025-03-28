@@ -1,48 +1,39 @@
-<div class="container">
-  <h2 class="my-4 text-center">🛒 Carrito de Compras</h2>
+<div class="container mt-4">
+  <h2 class="text-center mb-4">🛒 Mi Carrito</h2>
 
-  <!-- Tabla de productos en el carrito -->
-  <div class="table-responsive">
-    <table *ngIf="carrito?.items" class="table">
-      <thead>
-        <tr>
-          <th>Producto</th>
-          <th>Precio</th>
-          <th>Cantidad</th>
-          <th>Subtotal</th>
-          <th>Acciones</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr *ngFor="let item of carrito?.items">
-          <td>{{ item.producto.nombre }}</td>
-          <td>${{ item.producto.precio }}</td>
-          <td>{{ item.cantidad }}</td>
-          <td>${{ item.precioUnitario * item.cantidad }}</td>
-          <td>
-            <button class="btn btn-danger btn-sm" (click)="eliminarProducto(item.producto.id)">Eliminar</button>
-          </td>
-        </tr>
-      </tbody>
-    </table>
+  <table class="table table-striped text-center">
+    <thead class="table-dark">
+      <tr>
+        <th>Producto</th>
+        <th>Cantidad</th>
+        <th>Precio</th>
+        <th>Subtotal</th>
+        <th>Acciones</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let item of carrito.items">
+        <td>{{ item.producto.nombre }}</td>
+        <td>
+          <input type="number" [(ngModel)]="item.cantidad" class="form-control text-center w-50 mx-auto" min="1">
+        </td>
+        <td>${{ item.producto.precio }}</td>
+        <td>${{ item.cantidad * item.producto.precio }}</td>
+        <td>
+          <button class="btn btn-danger btn-sm" (click)="eliminarProducto(item.producto.id)">
+            ❌ Eliminar
+          </button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
 
-    <div class="text-end">
-      <p><b>Total:</b> ${{ carrito?.total }}</p>
-      <button class="btn btn-warning" (click)="vaciarCarrito()">Vaciar carrito</button>
-      <button class="btn btn-success" routerLink="/checkout">Finalizar compra</button>
-    </div>
+  <div class="text-end mt-3">
+    <h4>Total: <span class="fw-bold text-success">${{ carrito.total }}</span></h4>
+    <button class="btn btn-warning me-2" (click)="vaciarCarrito()">🗑️ Vaciar Carrito</button>
+    <button class="btn btn-success" (click)="irAlCheckout()">✅ Finalizar Compra</button>
   </div>
-  </div>
-
-
-  <ng-template #loading>
-    <p>Cargando carrito...</p>
-  </ng-template>
-
-  <!-- Resumen de compra -->
-
-
-  <!-- Botón para vaciar el carrito -->
+</div>
 
 
 

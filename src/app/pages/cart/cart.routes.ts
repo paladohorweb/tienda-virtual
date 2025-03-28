@@ -1,6 +1,6 @@
 import { Routes } from '@angular/router';
-import { CartComponent } from './carrito.component';
+import { CarritoComponent } from './carrito.component';
 
 export const CART_ROUTES: Routes = [
-  { path: '', component: CartComponent }
+  { path: '', component: CarritoComponent }
 ];

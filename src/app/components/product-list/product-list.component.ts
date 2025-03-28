@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { ProductService } from '../../services/product.service';
-import { Product } from '../../models/product.model';
+
+
 import { NgFor } from '@angular/common'; // 👈 Importa NgFor
+import { Producto } from '../../models/producto.model';
+import { ProductoService } from '../../services/producto.service';
 
 
 @Component({
@@ -14,13 +16,13 @@ import { NgFor } from '@angular/common'; // 👈 Importa NgFor
 
 
 export class ProductListComponent  implements OnInit{
-  products: Product[] = [];
+  productos: Producto[] = [];
 
-  constructor(private productService: ProductService) {}
+  constructor(private productService: ProductoService) {}
 
   ngOnInit(): void {
-    this.productService.getProducts().subscribe(data => {
-      this.products = data;
+    this.productService.obtenerProductos().subscribe(data => {
+      this.productos = data;
     });
   }
 }

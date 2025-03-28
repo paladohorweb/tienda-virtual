@@ -9,6 +9,7 @@ import { environment } from '../../environments/environment';
   providedIn: 'root'
 })
 export class ProductoService {
+  [x: string]: any;
   private apiUrl = `${environment.apiUrl}/productos`;  // 🔹 Asegúrate de que la URL es correcta
 
   constructor(private http: HttpClient) {}

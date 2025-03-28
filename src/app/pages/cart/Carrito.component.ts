@@ -1,41 +1,32 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-
+import { Router } from '@angular/router';
 import { FormsModule } from '@angular/forms';
-import { Carrito } from '../../models/carrito.model';
 import { CarritoService } from '../../services/carrito.service';
-import { Rol } from '../../models/usuario.model';
 
 @Component({
   selector: 'app-carrito',
-  templateUrl:  './carrito.component.html',
+  templateUrl: './carrito.component.html',
   standalone: true,
   imports: [CommonModule, FormsModule],
 })
 export class CarritoComponent implements OnInit {
-  carrito: Carrito | null = null;  // Inicia como null para evitar errores de acceso a "items"
-  constructor(private carritoService: CarritoService) {}
+  carrito: any = { productos: [], total: 0 };
 
-  ngOnInit(): void {
+  constructor(private carritoService: CarritoService, private router: Router) {}
+
+  ngOnInit() {
     this.cargarCarrito();
   }
 
-  cargarCarrito(): void {
+  cargarCarrito() {
     this.carritoService.obtenerCarrito().subscribe({
       next: (data) => {
-        this.carrito = { id: 0, usuario: {
-          id: 0, email: '',
-          password: '',
-          rol: Rol.ADMIN
-        }, items: [], total: 0 };
+        this.carrito = data;
       },
       error: (err) => {
-        console.error('Error al obtener el carrito:', err);
-        this.carrito = { id: 0, usuario: {
-          id: 0, email: '',
-          password: '',
-          rol: Rol.ADMIN
-        }, items: [], total: 0 };
+        console.error('❌ Error al obtener el carrito', err);
+        alert('❌ No se pudo cargar el carrito.');
       }
     });
   }
@@ -48,9 +39,17 @@ export class CarritoComponent implements OnInit {
 
   vaciarCarrito() {
     this.carritoService.vaciarCarrito().subscribe(() => {
-      if (this.carrito) {
-        this.carrito.items = [];
-      }
+      this.carrito.productos = [];
+      this.carrito.total = 0;
     });
   }
+
+  irAlCheckout() {
+    if (this.carrito.productos.length === 0) {
+      alert('❌ No puedes finalizar la compra con el carrito vacío.');
+      return;
+    }
+    this.router.navigate(['/checkout']);
+  }
 }
+

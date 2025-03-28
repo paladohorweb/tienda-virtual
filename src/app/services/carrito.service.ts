@@ -17,21 +17,26 @@ export class CarritoService {
     const token = sessionStorage.getItem('authToken'); // 🔹 Aseguramos que es el mismo storage que en AuthService
     return new HttpHeaders({
       Authorization: `Bearer ${token}`,
+      'Content-Type': 'application/json', // 🔹 Asegurar formato correcto
     });
   }
 
   /** 🔹 Obtener el carrito del usuario autenticado */
   obtenerCarrito(): Observable<Carrito> {
-    return this.http.get<Carrito>(this.apiUrl, { headers: this.getAuthHeaders() });
+    return this.http.get<Carrito>(`${this.apiUrl}`, { headers: this.getAuthHeaders() });
   }
 
   /** 🔹 Agregar un producto al carrito */
-  agregarProducto(productoId: number, cantidad: number): Observable<Carrito> {
-    return this.http.post<Carrito>(
-      `${this.apiUrl}/agregar`,
-      { productoId, cantidad },
-      { headers: this.getAuthHeaders() }
-    );
+  agregarProducto(productoId: number, cantidad: number): Observable<any> {
+    const headers = this.getAuthHeaders(); // ✅ Obtener el token correctamente
+    const body = { usuarioId: this.obtenerUsuarioId(), productoId, cantidad }; // ✅ Incluir usuarioId
+
+    return this.http.post(`${this.apiUrl}/agregar`, body, { headers });
+  }
+
+  /** 🔹 Método para obtener el ID del usuario autenticado */
+  private obtenerUsuarioId(): number {
+    return Number(sessionStorage.getItem('usuarioId')); // Asegurar que el usuario tiene ID almacenado
   }
 
   /** 🔹 Eliminar un producto específico del carrito */
