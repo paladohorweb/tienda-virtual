@@ -1,39 +1,54 @@
-<div class="container mt-4">
-  <h2 class="text-center mb-4">🛒 Mi Carrito</h2>
+<div class="container">
+  <h2 class="my-4">🛒 Mi Carrito</h2>
 
-  <table class="table table-striped text-center">
-    <thead class="table-dark">
-      <tr>
-        <th>Producto</th>
-        <th>Cantidad</th>
-        <th>Precio</th>
-        <th>Subtotal</th>
-        <th>Acciones</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr *ngFor="let item of carrito.items">
-        <td>{{ item.producto.nombre }}</td>
-        <td>
-          <input type="number" [(ngModel)]="item.cantidad" class="form-control text-center w-50 mx-auto" min="1">
-        </td>
-        <td>${{ item.producto.precio }}</td>
-        <td>${{ item.cantidad * item.producto.precio }}</td>
-        <td>
-          <button class="btn btn-danger btn-sm" (click)="eliminarProducto(item.producto.id)">
-            ❌ Eliminar
-          </button>
-        </td>
-      </tr>
-    </tbody>
-  </table>
+  <div *ngIf="carrito && carrito.items.length > 0; else carritoVacio">
+    <table class="table">
+      <thead>
+        <tr>
+          <th>Producto</th>
+          <th>Cantidad</th>
+          <th>Precio</th>
+          <th>Subtotal</th>
+          <th>Acciones</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let item of carrito.items">
+          <td>{{ item.producto.nombre }}</td>
+          <td>
+            <input
+              type="number"
+              [value]="item.cantidad"
+              (change)="actualizarCantidad(item.producto.id, $event)"
+              class="form-control"
+              style="width: 60px;"
+            />
+          </td>
+          <td>${{ item.producto.precio }}</td>
+          <td>${{ item.producto.precio * item.cantidad }}</td>
+          <td>
+            <button class="btn btn-danger btn-sm" (click)="eliminarProducto(item.producto.id)">
+              🗑 Eliminar
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
 
-  <div class="text-end mt-3">
-    <h4>Total: <span class="fw-bold text-success">${{ carrito.total }}</span></h4>
-    <button class="btn btn-warning me-2" (click)="vaciarCarrito()">🗑️ Vaciar Carrito</button>
+    <div class="alert alert-info">
+      <strong>Total: ${{ carrito.total }}</strong>
+    </div>
+
+    <button class="btn btn-warning" (click)="vaciarCarrito()">🗑 Vaciar Carrito</button>
     <button class="btn btn-success" (click)="irAlCheckout()">✅ Finalizar Compra</button>
   </div>
+
+  <ng-template #carritoVacio>
+    <div class="alert alert-warning">❌ Tu carrito está vacío.</div>
+  </ng-template>
 </div>
+
+
 
 
 

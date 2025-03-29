@@ -9,7 +9,7 @@ import { AuthService } from '../../../services/auth.service';
   standalone: true,
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.css'],
-  imports: [CommonModule,  FormsModule ]
+  imports: [CommonModule, FormsModule],
 })
 export class LoginComponent {
   credentials = { email: '', password: '' };
@@ -24,11 +24,20 @@ export class LoginComponent {
     }
 
     this.authService.login(this.credentials).subscribe({
-      next: () => this.router.navigate(['/']),
+      next: () => {
+        console.log('✅ Login exitoso.');
+        console.log('Token:', sessionStorage.getItem('authToken'));
+        console.log('Usuario ID:', sessionStorage.getItem('usuarioId'));
+
+        this.router.navigate(['/']).then(() => {
+          window.location.reload(); // 🔄 Recargar la página para actualizar estado
+        });
+      },
       error: (err) => {
-        console.error('Error al iniciar sesión', err);
+        console.error('❌ Error al iniciar sesión', err);
         this.errorMessage = 'Credenciales incorrectas';
       },
     });
   }
 }
+

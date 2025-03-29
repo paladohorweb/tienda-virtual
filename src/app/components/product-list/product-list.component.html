@@ -1,14 +1,14 @@
 <div class="container">
   <h2 class="my-4">Lista de Productos</h2>
   <div class="row">
-    <div class="col-md-4" *ngFor="let Producto of productos">
+    <div class="col-md-4" *ngFor="let producto of productos">
       <div class="card">
-        <img [src]="" class="card-img-top" alt="{{ productos}}">
+        <img [src]="producto.imagenUrl || 'assets/img/default.jpg'" class="card-img-top" alt="{{ producto.nombre }}">
         <div class="card-body">
-          <h5 class="card-title">{{ productos.nombre}}</h5>
-          <p class="card-text">{{ product.description }}</p>
-          <p class="card-text"><strong>Precio:</strong> ${{ product.price }}</p>
-          <button class="btn btn-primary">
+          <h5 class="card-title">{{ producto.nombre }}</h5>
+          <p class="card-text">{{ producto.descripcion }}</p>
+          <p class="card-text"><strong>Precio:</strong> ${{ producto.precio }}</p>
+          <button class="btn btn-primary" (click)="agregarAlCarrito(producto.id)">
             <i class="fas fa-shopping-cart"></i> Agregar al carrito
           </button>
         </div>

@@ -1,21 +1,30 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
-import { FormsModule } from '@angular/forms';
 import { CarritoService } from '../../services/carrito.service';
+import { Carrito } from '../../models/carrito.model';
+import { Rol } from '../../models/usuario.model';
 
 @Component({
   selector: 'app-carrito',
-  templateUrl: './carrito.component.html',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule],
+  templateUrl: './carrito.component.html'
+
 })
 export class CarritoComponent implements OnInit {
-  carrito: any = { productos: [], total: 0 };
+  carrito: Carrito | null = null;
+  usuarioId: number | null = null;
 
   constructor(private carritoService: CarritoService, private router: Router) {}
 
   ngOnInit() {
+    this.usuarioId = Number(sessionStorage.getItem('usuarioId'));
+    if (!this.usuarioId) {
+      alert('❌ Debes iniciar sesión para ver tu carrito');
+      this.router.navigate(['/login']);
+      return;
+    }
     this.cargarCarrito();
   }
 
@@ -31,6 +40,21 @@ export class CarritoComponent implements OnInit {
     });
   }
 
+  actualizarCantidad(productoId: number, event: Event) {
+    const inputElement = event.target as HTMLInputElement;
+    const nuevaCantidad = Number(inputElement.value);
+    if (nuevaCantidad < 1) return;
+
+    this.carritoService.agregarProducto(productoId, nuevaCantidad).subscribe({
+      next: () => {
+        this.cargarCarrito();
+      },
+      error: (err) => {
+        console.error('❌ Error al actualizar cantidad', err);
+      },
+    });
+  }
+
   eliminarProducto(productoId: number) {
     this.carritoService.eliminarProducto(productoId).subscribe(() => {
       this.cargarCarrito();
@@ -39,17 +63,23 @@ export class CarritoComponent implements OnInit {
 
   vaciarCarrito() {
     this.carritoService.vaciarCarrito().subscribe(() => {
-      this.carrito.productos = [];
-      this.carrito.total = 0;
+      this.carrito = { id: 0, usuario: {
+        id: this.usuarioId!,
+        email: '',
+        password: '',
+        rol: Rol.ADMIN
+      }, items: [], total: 0 };
     });
   }
 
   irAlCheckout() {
-    if (this.carrito.productos.length === 0) {
+    if (!this.carrito || this.carrito.items.length === 0) {
       alert('❌ No puedes finalizar la compra con el carrito vacío.');
       return;
     }
     this.router.navigate(['/checkout']);
   }
 }
+
+
 

@@ -2,47 +2,52 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, BehaviorSubject } from 'rxjs';
 import { tap } from 'rxjs/operators';
+import { environment } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AuthService {
-  private apiUrl = 'http://localhost:8080/api/auth/login'; // 🔹 Ajusta si es necesario
+  private apiUrl = `${environment.apiUrl}/auth`;
   private authTokenKey = 'authToken';
-  private userRoleKey = 'userRole';
+  private usuarioIdKey = 'usuarioId';
 
   private isLoggedInSubject = new BehaviorSubject<boolean>(this.hasToken());
 
-  constructor(private http: HttpClient) {
-    if (this.getToken()) {
-      this.isLoggedInSubject.next(true);
-    }
-  }
+  constructor(private http: HttpClient) {}
 
   /** 🔹 Iniciar sesión */
-  login(credentials: { email: string; password: string }): Observable<any> {
-    return this.http.post(this.apiUrl, credentials).pipe(
-      tap((response: any) => {
-        console.log('Respuesta del backend:', response);
-        if (response.token) {
-          localStorage.setItem(this.authTokenKey, response.token);
-          localStorage.setItem(this.userRoleKey, response.role || 'USER'); // Guarda el rol si existe
-          this.isLoggedInSubject.next(true);
-        }
+  login(credentials: { email: string; password: string }): Observable<{ token: string; usuarioId: number }> {
+    return this.http.post<{ token: string; usuarioId: number }>(
+      `${this.apiUrl}/login`,
+      credentials
+    ).pipe(
+      tap((response) => {
+        sessionStorage.setItem(this.authTokenKey, response.token); // ✅ Guardar en sessionStorage
+        sessionStorage.setItem(this.usuarioIdKey, response.usuarioId.toString()); // ✅ Guardar usuarioId
+        this.isLoggedInSubject.next(true); // ✅ Notificar cambio de estado
+        console.log('✅ Login exitoso. Token y usuarioId guardados:', response);
       })
     );
   }
 
   /** 🔹 Cerrar sesión */
   logout() {
-    localStorage.removeItem(this.authTokenKey);
-    localStorage.removeItem(this.userRoleKey);
+    sessionStorage.removeItem(this.authTokenKey);
+    sessionStorage.removeItem(this.usuarioIdKey);
     this.isLoggedInSubject.next(false);
+    console.log('🚪 Usuario cerró sesión.');
   }
 
   /** 🔹 Obtener token almacenado */
   getToken(): string | null {
-    return localStorage.getItem(this.authTokenKey);
+    return sessionStorage.getItem(this.authTokenKey);
+  }
+
+  /** 🔹 Obtener ID del usuario autenticado */
+  getUsuarioId(): number | null {
+    const id = sessionStorage.getItem(this.usuarioIdKey);
+    return id ? Number(id) : null;
   }
 
   /** 🔹 Saber si el usuario está autenticado */
@@ -50,17 +55,12 @@ export class AuthService {
     return this.isLoggedInSubject.value;
   }
 
-  /** 🔹 Obtener el rol del usuario */
-  getUserRole(): string | null {
-    return localStorage.getItem(this.userRoleKey);
-  }
-
-  /** 🔹 Observable para detectar cambios en autenticación */
+  /** 🔹 Observable para cambios en autenticación */
   getAuthStatus(): Observable<boolean> {
     return this.isLoggedInSubject.asObservable();
   }
 
-  /** 🔹 Comprobar si hay un token en localStorage */
+  /** 🔹 Comprobar si hay un token en sessionStorage */
   private hasToken(): boolean {
     return !!this.getToken();
   }
