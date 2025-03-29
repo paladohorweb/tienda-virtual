@@ -1,1 +1,44 @@
-<p>footer works!</p>
+<footer class="footer bg-dark text-white py-4 mt-auto">
+  <div class="container text-center text-md-start">
+    <div class="row">
+      <!-- Columna 1: Logo y descripción -->
+      <div class="col-md-4 mb-3">
+        <h5 class="fw-bold">Mi Tienda</h5>
+        <p>Tu tienda de confianza para productos de calidad.</p>
+      </div>
+
+      <!-- Columna 2: Enlaces rápidos -->
+      <div class="col-md-4 mb-3">
+        <h5 class="fw-bold">Enlaces</h5>
+        <ul class="list-unstyled">
+          <li><a href="/products" class="text-white text-decoration-none">Productos</a></li>
+          <li><a href="/contacto" class="text-white text-decoration-none">Contacto</a></li>
+          <li><a href="/terminos" class="text-white text-decoration-none">Términos y condiciones</a></li>
+        </ul>
+      </div>
+
+      <!-- Columna 3: Redes Sociales -->
+      <div class="col-md-4 mb-3">
+        <h5 class="fw-bold">Síguenos</h5>
+        <a href="https://facebook.com" class="text-white me-3" target="_blank">
+          <i class="fab fa-facebook fa-lg"></i>
+        </a>
+        <a href="https://twitter.com" class="text-white me-3" target="_blank">
+          <i class="fab fa-twitter fa-lg"></i>
+        </a>
+        <a href="https://instagram.com" class="text-white" target="_blank">
+          <i class="fab fa-instagram fa-lg"></i>
+        </a>
+      </div>
+    </div>
+
+    <!-- Línea divisoria -->
+    <hr class="border-light my-3">
+
+    <!-- Copyright dinámico -->
+    <div class="text-center">
+      <p class="mb-0">&copy; {{ currentYear }} Mi Tienda. Todos los derechos reservados.</p>
+    </div>
+  </div>
+</footer>
+
