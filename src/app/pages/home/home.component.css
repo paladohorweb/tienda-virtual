@@ -1,16 +1,53 @@
-.carousel-item img {
-  height: 400px;
+/* 🔹 Carrusel */
+#featuredCarousel img {
+  height: 400px; /* Ajuste para mejor visualización */
   object-fit: cover;
+  border-radius: 10px; /* Eliminar bordes duros */
 }
 
-h1, h2 {
-  color: #333;
+/* 🔹 Sección de bienvenida */
+.bienvenida {
+  padding: 50px 20px;
+  background: linear-gradient(135deg, #ff8c00, #ff2d55);
+  color: white;
+  border-radius: 10px;
+}
+
+.bienvenida h1 {
+  font-size: 2.5rem;
+  font-weight: bold;
+}
+
+.bienvenida p {
+  font-size: 1.2rem;
+}
+
+.bienvenida .btn {
+  margin-top: 15px;
+}
+
+/* 🔹 Productos destacados */
+.productos-destacados, .ropa-exclusiva {
+  margin-top: 50px;
+}
+
+.productos-destacados h2, .ropa-exclusiva h2 {
+  text-align: center;
+  font-weight: bold;
+  margin-bottom: 20px;
 }
 
 .card {
-  transition: transform 0.3s ease-in-out;
+  transition: transform 0.3s ease;
 }
 
 .card:hover {
-  transform: translateY(-5px);
+  transform: scale(1.05);
+}
+
+/* 🔹 Sección exclusiva de ropa */
+.ropa-exclusiva {
+  padding: 20px;
+  background: #f8f9fa;
+  border-radius: 10px;
 }

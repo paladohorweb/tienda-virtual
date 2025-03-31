@@ -14,5 +14,10 @@ export class HomeComponent {
     { id: 2, name: 'Producto 2', description: 'Descripción 2', price: 299.99, image: 'assets/img/product2.jpg' },
     { id: 3, name: 'Producto 3', description: 'Descripción 3', price: 399.99, image: 'assets/img/product3.jpg' }
   ];
+clothingProducts= [
+  { id: 1, name: 'Producto 1', description: 'Descripción 1', price: 199.99, image: 'assets/img/product1.jpg' },
+  { id: 2, name: 'Producto 2', description: 'Descripción 2', price: 299.99, image: 'assets/img/product2.jpg' },
+  { id: 3, name: 'Producto 3', description: 'Descripción 3', price: 399.99, image: 'assets/img/product3.jpg' }
+];
 }
 

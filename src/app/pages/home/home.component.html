@@ -1,6 +1,6 @@
 <div class="container mt-4">
-  <!-- Carrusel de productos destacados -->
-  <div id="featuredCarousel" class="carousel slide" data-bs-ride="carousel">
+  <!-- 🔹 Carrusel de productos destacados -->
+  <div id="featuredCarousel" class="carousel slide carousel-fade" data-bs-ride="carousel">
     <div class="carousel-inner">
       <div class="carousel-item active">
         <img src="assets/img/featured1.jpg" class="d-block w-100" alt="Producto destacado 1">
@@ -12,31 +12,25 @@
         <img src="assets/img/featured3.jpg" class="d-block w-100" alt="Producto destacado 3">
       </div>
     </div>
-    <button class="carousel-control-prev" type="button" data-bs-target="#featuredCarousel" data-bs-slide="prev">
-      <span class="carousel-control-prev-icon"></span>
-    </button>
-    <button class="carousel-control-next" type="button" data-bs-target="#featuredCarousel" data-bs-slide="next">
-      <span class="carousel-control-next-icon"></span>
-    </button>
   </div>
 
-  <!-- Sección de bienvenida -->
-  <section class="text-center mt-5">
-    <h1 class="fw-bold">¡Bienvenido a nuestra tienda virtual!</h1>
-    <p class="text-muted">Descubre los mejores productos con descuentos exclusivos.</p>
-    <a routerLink="/products" class="btn btn-primary btn-lg">Ver todos los productos</a>
+  <!-- 🔹 Sección de bienvenida -->
+  <section class="bienvenida text-center">
+    <h1>¡Descubre lo mejor en nuestra tienda!</h1>
+    <p>Ofertas exclusivas y los mejores productos solo para ti.</p>
+    <a routerLink="/products" class="btn btn-primary btn-lg">Explorar ahora</a>
   </section>
 
-  <!-- Productos destacados -->
-  <section class="mt-5">
-    <h2 class="mb-4 text-center">Productos Destacados</h2>
+  <!-- 🔹 Productos destacados -->
+  <section class="productos-destacados">
+    <h2>Productos Destacados</h2>
     <div class="row row-cols-1 row-cols-md-3 g-4">
       <div class="col" *ngFor="let product of featuredProducts">
         <div class="card h-100">
           <img [src]="product.image" class="card-img-top" [alt]="product.name">
           <div class="card-body text-center">
             <h5 class="card-title">{{ product.name }}</h5>
-            <p class="card-text text-muted">{{ product.description }}</p>
+            <p class="text-muted">{{ product.description }}</p>
             <p class="fw-bold">{{ product.price | currency }}</p>
             <a routerLink="/products" class="btn btn-outline-primary">Ver más</a>
           </div>
@@ -44,5 +38,25 @@
       </div>
     </div>
   </section>
+
+  <!-- 🔹 Sección exclusiva de ropa -->
+  <section class="ropa-exclusiva">
+    <h2>Moda Exclusiva</h2>
+    <div class="row row-cols-1 row-cols-md-3 g-4">
+      <div class="col" *ngFor="let product of clothingProducts">
+        <div class="card h-100">
+          <img [src]="product.image" class="card-img-top" [alt]="product.name">
+          <div class="card-body text-center">
+            <h5 class="card-title">{{ product.name }}</h5>
+            <p class="text-muted">{{ product.description }}</p>
+            <p class="fw-bold">{{ product.price | currency }}</p>
+            <a routerLink="/products" class="btn btn-outline-dark">Ver más</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
 </div>
+
+
 
