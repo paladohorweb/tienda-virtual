@@ -1,34 +1,34 @@
 import { Component, OnInit } from '@angular/core';
+import { CommonModule } from '@angular/common';
 import { Pedido } from '../../models/pedido.model';
 import { PedidoService } from '../../services/pedido.service';
-import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
+
 
 @Component({
   selector: 'app-pedidos',
   standalone: true,
-  imports: [CommonModule,FormsModule],
+  imports: [CommonModule],
   templateUrl: './pedidos.component.html',
-  styleUrl: './pedidos.component.css'
+  styleUrls: ['./pedidos.component.css'],
 })
-export class PedidosComponent implements OnInit {
+export class PedidoComponent implements OnInit {
   pedidos: Pedido[] = [];
+  errorMessage = '';
 
   constructor(private pedidoService: PedidoService) {}
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.obtenerPedidos();
   }
 
   obtenerPedidos() {
-    this.pedidoService.obtenerPedidos().subscribe((data) => {
-      this.pedidos = data;
-    });
-  }
-
-  cancelarPedido(pedidoId: number) {
-    this.pedidoService.cancelarPedido(pedidoId).subscribe(() => {
-      this.obtenerPedidos();
+    this.pedidoService.obtenerPedidos().subscribe({
+      next: (pedidos) => (this.pedidos = pedidos),
+      error: (err) => {
+        console.error('❌ Error al obtener pedidos:', err);
+        this.errorMessage = 'No se pudieron cargar los pedidos.';
+      },
     });
   }
 }
+

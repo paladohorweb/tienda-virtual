@@ -17,16 +17,18 @@ export class AuthService {
   constructor(private http: HttpClient) {}
 
   /** 🔹 Iniciar sesión */
-  login(credentials: { email: string; password: string }): Observable<{ token: string; usuarioId: number }> {
-    return this.http.post<{ token: string; usuarioId: number }>(
+  login(credentials: { email: string; password: string }): Observable<{ token: string; usuarioId: number; usuario: any }> {
+    return this.http.post<{ token: string; usuarioId: number; usuario: any }>(
       `${this.apiUrl}/login`,
       credentials
     ).pipe(
       tap((response) => {
-        sessionStorage.setItem(this.authTokenKey, response.token); // ✅ Guardar en sessionStorage
-        sessionStorage.setItem(this.usuarioIdKey, response.usuarioId.toString()); // ✅ Guardar usuarioId
-        this.isLoggedInSubject.next(true); // ✅ Notificar cambio de estado
-        console.log('✅ Login exitoso. Token y usuarioId guardados:', response);
+        sessionStorage.setItem(this.authTokenKey, response.token);
+        sessionStorage.setItem(this.usuarioIdKey, response.usuarioId.toString());
+        sessionStorage.setItem('usuario', JSON.stringify(response.usuario)); // ✅ Guardar usuario completo en sessionStorage
+
+        this.isLoggedInSubject.next(true);
+        console.log('✅ Login exitoso. Token, usuarioId y usuario guardados:', response);
       })
     );
   }
@@ -63,6 +65,11 @@ export class AuthService {
   /** 🔹 Comprobar si hay un token en sessionStorage */
   private hasToken(): boolean {
     return !!this.getToken();
+  }
+
+  getUsuario(): any {
+    const usuarioJson = sessionStorage.getItem('usuario');
+    return usuarioJson ? JSON.parse(usuarioJson) : null;
   }
 }
 

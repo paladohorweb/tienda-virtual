@@ -1,38 +1,27 @@
 <div class="container mt-4">
   <h2>Mis Pedidos</h2>
 
-  <div *ngIf="pedidos.length === 0">
-    <p>No tienes pedidos aún.</p>
+  <div *ngIf="errorMessage" class="alert alert-danger">
+    {{ errorMessage }}
   </div>
 
-  <div class="table-responsive">
-    <table class="table table-striped">
-      <thead>
-        <tr>
-          <th>#</th>
-          <th>Fecha</th>
-          <th>Estado</th>
-          <th>Total</th>
-          <th>Acciones</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr *ngFor="let pedido of pedidos">
-          <td>{{ pedido.id }}</td>
-          <td>{{ pedido.fechaPedido | date:'short' }}</td>
-          <td>{{ pedido.estado }}</td>
-          <td>${{ pedido.total | number:'1.2-2' }}</td>
-          <td>
-            <button
-              *ngIf="pedido.estado === 'PENDIENTE'"
-              class="btn btn-danger btn-sm"
-              (click)="cancelarPedido(pedido.id)"
-            >
-              Cancelar
-            </button>
-          </td>
-        </tr>
-      </tbody>
-    </table>
+  <div *ngIf="pedidos.length === 0" class="alert alert-info">
+    No tienes pedidos aún.
+  </div>
+
+  <div *ngFor="let pedido of pedidos" class="card mt-3">
+    <div class="card-header">
+      <strong>Pedido #{{ pedido.id }}</strong> - {{ pedido.estado }}
+    </div>
+    <div class="card-body">
+      <p><strong>Fecha:</strong> {{ pedido.fechaPedido }}</p>
+      <p><strong>Total:</strong> ${{ pedido.total }}</p>
+      <ul>
+        <li *ngFor="let detalle of pedido.detalles">
+          {{ detalle.cantidad }}x {{ detalle.producto }} - ${{ detalle.precioUnitario }}
+        </li>
+      </ul>
+    </div>
   </div>
 </div>
+

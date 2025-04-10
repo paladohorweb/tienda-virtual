@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { catchError, Observable } from 'rxjs';
 
 import { Pago } from '../models/pago.model';
 import { environment } from '../../environments/environment';
@@ -20,8 +20,27 @@ export class CheckoutService {
    * @returns Observable con el resultado del pago
    */
   procesarCheckout(pedidoId: number, metodoPago: string): Observable<Pago> {
-    const url = `${this.apiUrl}/${pedidoId}?metodoPago=${metodoPago}`;
-    return this.http.post<Pago>(url, {});
+    return this.http.post<Pago>(
+      `${environment.apiUrl}/api/checkout`,
+      null,
+      {
+        params: {
+          pedidoId: pedidoId.toString(),
+          metodoPago: metodoPago
+        }
+      }
+    ).pipe(
+      catchError(error => {
+        // Mapeo de errores específicos
+        if (error.status === 404) {
+          throw new Error('Pedido no encontrado');
+        }
+        if (error.error?.message?.includes('Stock insuficiente')) {
+          throw new Error(error.error.message);
+        }
+        throw new Error('Error al procesar el pago');
+      })
+    );
   }
 }
 

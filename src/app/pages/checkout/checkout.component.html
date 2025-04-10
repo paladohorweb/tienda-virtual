@@ -1,33 +1,64 @@
 <div class="container mt-4">
   <h2 class="text-center mb-4">💳 Checkout</h2>
 
-  <div class="row">
+  <!-- Mostrar error si existe -->
+  <div *ngIf="error" class="alert alert-danger">
+    {{ error }}
+  </div>
+
+  <!-- Spinner de carga -->
+  <div *ngIf="cargando" class="text-center my-4">
+    <div class="spinner-border text-success" role="status">
+      <span class="visually-hidden">Cargando...</span>
+    </div>
+    <p class="mt-2">Procesando tu pedido...</p>
+  </div>
+
+  <!-- Contenido principal -->
+  <div *ngIf="!cargando" class="row">
     <!-- Resumen del Pedido -->
     <div class="col-md-6">
       <h4>🛍️ Resumen del Pedido</h4>
-      <ul class="list-group">
-        <li *ngFor="let item of carrito.items" class="list-group-item d-flex justify-content-between">
-          <span>{{ item.producto.nombre }} (x{{ item.cantidad }})</span>
-          <span class="fw-bold">${{ item.cantidad * item.producto.precio }}</span>
+
+      <div *ngIf="carrito.items.length === 0" class="alert alert-info">
+        No hay productos en tu carrito
+      </div>
+
+      <ul *ngIf="carrito.items.length > 0" class="list-group">
+        <li *ngFor="let item of carrito.items" class="list-group-item d-flex justify-content-between align-items-center">
+          <div>
+            <span>{{ item.producto.nombre }}</span>
+            <small class="text-muted d-block">x{{ item.cantidad }}</small>
+          </div>
+          <span class="fw-bold">${{ item.cantidad * item.producto.precio | number }}</span>
         </li>
       </ul>
-      <h4 class="mt-3">Total: <span class="text-success">${{ carrito.total }}</span></h4>
+
+      <h4 *ngIf="carrito.items.length > 0" class="mt-3">
+        Total: <span class="text-success">${{ carrito.total | number }}</span>
+      </h4>
     </div>
 
     <!-- Formulario de Pago -->
     <div class="col-md-6">
       <h4>💰 Método de Pago</h4>
-      <select class="form-select mb-3">
-        <option value="mastercard_credito">💳 Mastercard Crédito</option>
-        <option value="mastercard_debito">💳 Mastercard Débito</option>
-        <option value="paypal">🅿️ PayPal</option>
-        <option value="transferencia">🏦 Transferencia Bancaria</option>
+      <select class="form-select mb-3" [(ngModel)]="metodoPago">
+        <option *ngFor="let metodo of metodosPago" [value]="metodo.value">
+          {{ metodo.label }}
+        </option>
       </select>
 
-      <button class="btn btn-success w-100" (click)="finalizarCompra()">🛒 Confirmar Compra</button>
+      <button
+        class="btn btn-success w-100 py-2"
+        (click)="finalizarCompra()"
+        [disabled]="carrito.items.length === 0 || cargando">
+        <span *ngIf="!cargando">🛒 Confirmar Compra</span>
+        <span *ngIf="cargando">Procesando...</span>
+      </button>
     </div>
   </div>
 </div>
+
 
 
 
