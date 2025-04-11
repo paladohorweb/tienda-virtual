@@ -52,7 +52,7 @@ export class ProductosComponent implements OnInit {
     this.carritoService.agregarProducto(producto.id, 1).subscribe({
       next: () => {
         alert('✅ Producto agregado al carrito');
-        this.router.navigate(['/carrito']);
+        //this.router.navigate(['/carrito']);
       },
       error: (err) => {
         console.error('❌ Error al agregar al carrito', err);

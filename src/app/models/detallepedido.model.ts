@@ -8,4 +8,7 @@ export interface DetallePedido {
   cantidad: number;
   precioUnitario: number;
   subtotal: number;
+
+
+  
 }

@@ -3,6 +3,7 @@ import { Routes } from '@angular/router';
 import { HomeComponent } from './pages/home/home.component';
 import { PedidoComponent } from './pages/pedidos/pedidos.component';
 import { PagoComponent } from './pages/pagos/pago.component';
+import { ConfirmacionComponent } from './pages/confirmacion/confirmacion.component';
 
 export const appRoutes: Routes = [
   { path:'login', component:LoginComponent},
@@ -15,6 +16,9 @@ export const appRoutes: Routes = [
   {
     path: 'pago/:pedidoId',
     component: PagoComponent,
+  },{
+    path: 'confirmacion/:id',
+    component: ConfirmacionComponent
   },
   { path: '**', redirectTo: 'home' } // Manejo de rutas no encontradas
 ];

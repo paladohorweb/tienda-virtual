@@ -6,15 +6,14 @@ import { environment } from '../../environments/environment';
 import { AuthService } from './auth.service';
 
 @Injectable({
-  providedIn: 'root',
+  providedIn: 'root'
 })
 export class PagoService {
-
   private apiUrl = `${environment.apiUrl}/pagos`;
 
   constructor(private http: HttpClient, private authService: AuthService) {}
 
-  /** 🔹 Obtener token de autenticación */
+  /** 🔹 Obtener token */
   private getAuthHeaders(): HttpHeaders {
     const token = this.authService.getToken();
     if (!token) {
@@ -29,12 +28,15 @@ export class PagoService {
 
   /** 🔹 Procesar pago */
   procesarPago(pedidoId: number, metodoPago: string): Observable<any> {
-    const params = { metodoPago }; // Solo pasamos el método de pago como parámetro de consulta
+    const params = { metodoPago };
 
     return this.http.post<any>(
-      `${this.apiUrl}/procesar/${pedidoId}`, // Enviamos el pedidoId como parte de la URL
-      null, // No es necesario enviar un cuerpo vacío (puedes usar null o dejarlo vacío)
-      { headers: this.getAuthHeaders(), params } // Aquí enviamos el 'metodoPago' como parámetros de la consulta
+      `${this.apiUrl}/procesar/${pedidoId}`,
+      null,
+      {
+        headers: this.getAuthHeaders(),
+        params,
+      }
     ).pipe(
       tap((res) => console.log('✅ Pago procesado:', res)),
       catchError((err) => {
@@ -43,14 +45,6 @@ export class PagoService {
       })
     );
   }
-  crearPedido(carrito: any): Observable<any> {
-    return this.http.post<any>(
-      `${this.apiUrl}/crearPedido`, // Ruta para crear el pedido
-      carrito,
-      { headers: this.getAuthHeaders() }
-    );
-  }
-
 }
 
 
