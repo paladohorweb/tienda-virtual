@@ -80,6 +80,7 @@ export class CheckoutComponent implements OnInit {
       next: (res) => {
         const pedidoId = res.data.id;
         this.procesarPago(pedidoId);
+        
       },
       error: (err) => {
         console.error('❌ Falló la creación del pedido:', err);
