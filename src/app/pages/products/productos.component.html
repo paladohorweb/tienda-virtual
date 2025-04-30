@@ -9,8 +9,14 @@
           <h5 class="card-title">{{ producto.nombre }}</h5>
           <p class="card-text text-muted">{{ producto.descripcion }}</p>
           <p class="fw-bold text-success">${{ producto.precio }}</p>
-          <p class="fw-bold text-success">{{ producto.stock }}</p>
-          <button class="btn btn-primary w-100" (click)="agregarAlCarrito(producto)">
+
+          <p *ngIf="producto.stock > 0" class="fw-bold text-primary">Stock: {{ producto.stock }}</p>
+          <p *ngIf="producto.stock === 0" class="fw-bold text-danger">🚫 Sin stock</p>
+
+          <button
+            class="btn btn-primary w-100"
+            [disabled]="producto.stock === 0"
+            (click)="agregarAlCarrito(producto)">
             🛒 Agregar al Carrito
           </button>
         </div>
