@@ -80,7 +80,7 @@ export class CheckoutComponent implements OnInit {
       next: (res) => {
         const pedidoId = res.data.id;
         this.procesarPago(pedidoId);
-        
+
       },
       error: (err) => {
         console.error('❌ Falló la creación del pedido:', err);
@@ -94,9 +94,18 @@ export class CheckoutComponent implements OnInit {
     this.pagoService.procesarPago(pedidoId, this.metodoPago).subscribe({
       next: () => {
         console.log('✔️ Pago exitoso');
-        this.cargando = false;
-        this.carritoService.limpiarCarrito();
-        this.router.navigate(['/confirmacion', pedidoId]);
+        this.carritoService.limpiarCarrito().subscribe({
+          next: () => {
+            console.log('🛒 Carrito vaciado con éxito');
+            this.cargando = false;
+            this.router.navigate(['/confirmacion', pedidoId]);
+          },
+          error: (err) => {
+            console.error('⚠️ Error al vaciar el carrito:', err);
+            this.cargando = false;
+            this.error = 'Pago realizado, pero hubo un problema al vaciar el carrito.';
+          }
+        });
       },
       error: (err) => {
         console.error('❌ Error al procesar pago:', err);
@@ -105,6 +114,7 @@ export class CheckoutComponent implements OnInit {
       }
     });
   }
+
 }
 
 
