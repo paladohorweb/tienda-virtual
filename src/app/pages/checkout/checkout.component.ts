@@ -21,7 +21,7 @@ export class CheckoutComponent implements OnInit {
     { value: 'mastercard_credito', label: '💳 Mastercard Crédito' },
     { value: 'mastercard_debito', label: '💳 Mastercard Débito' },
     { value: 'paypal', label: '🅿️ PayPal' },
-    { value: 'transferencia', label: '🏦 Transferencia Bancaria' }
+    { value: 'transferencia_bancaria', label: '🏦 Transferencia Bancaria' }
   ];
 
   metodoPago: string = this.metodosPago[0].value;
