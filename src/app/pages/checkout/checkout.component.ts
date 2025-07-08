@@ -90,30 +90,42 @@ export class CheckoutComponent implements OnInit {
     });
   }
 
-  private procesarPago(pedidoId: number): void {
-    this.pagoService.procesarPago(pedidoId, this.metodoPago).subscribe({
-      next: () => {
-        console.log('✔️ Pago exitoso');
-        this.carritoService.limpiarCarrito().subscribe({
-          next: () => {
-            console.log('🛒 Carrito vaciado con éxito');
-            this.cargando = false;
-            this.router.navigate(['/confirmacion', pedidoId]);
-          },
-          error: (err) => {
-            console.error('⚠️ Error al vaciar el carrito:', err);
-            this.cargando = false;
-            this.error = 'Pago realizado, pero hubo un problema al vaciar el carrito.';
-          }
-        });
-      },
-      error: (err) => {
-        console.error('❌ Error al procesar pago:', err);
-        this.cargando = false;
-        this.error = err.error?.message || 'Ocurrió un error al procesar el pago';
-      }
-    });
-  }
+private procesarPago(pedidoId: number): void {
+  this.pagoService.procesarPago(pedidoId, this.metodoPago).subscribe({
+    next: () => {
+      console.log('✔️ Pago exitoso');
+
+      // ✅ Generar la factura
+      this.pedidoService.generarFactura(pedidoId).subscribe({
+        next: () => {
+          console.log('🧾 Factura generada automáticamente');
+          // ✅ Limpiar carrito
+          this.carritoService.limpiarCarrito().subscribe({
+            next: () => {
+              this.cargando = false;
+              this.router.navigate(['/factura', pedidoId]); // Redirige a página de factura
+            },
+            error: (err) => {
+              console.error('⚠️ Error al vaciar el carrito:', err);
+              this.cargando = false;
+              this.error = 'Pago realizado, pero hubo un problema al vaciar el carrito.';
+            }
+          });
+        },
+        error: (err) => {
+          console.error('❌ Error al generar la factura:', err);
+          this.cargando = false;
+          this.error = 'El pago fue exitoso, pero no se pudo generar la factura.';
+        }
+      });
+    },
+    error: (err) => {
+      console.error('❌ Error al procesar pago:', err);
+      this.cargando = false;
+      this.error = err.error?.message || 'Ocurrió un error al procesar el pago';
+    }
+  });
+}
 
 }
 

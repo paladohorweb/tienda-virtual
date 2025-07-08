@@ -14,6 +14,10 @@ export const appRoutes: Routes = [
   { path: 'cart', loadComponent: () => import('./pages/cart/Carrito.component').then(m => m.CarritoComponent) }, // Agrega la ruta del carrito
   { path: 'checkout', loadComponent: () => import('./pages/checkout/checkout.component').then(m => m.CheckoutComponent) }, // ✅ Agrega esta línea
   {
+  path: 'factura/:pedidoId',
+  loadComponent: () => import('./pages/factura/factura.component').then(m => m.FacturaComponent)
+},
+  {
     path: 'pago/:pedidoId',
     component: PagoComponent,
   },{

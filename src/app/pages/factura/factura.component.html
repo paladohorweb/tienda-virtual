@@ -1,0 +1,34 @@
+<div *ngIf="cargando">Cargando factura...</div>
+<div *ngIf="error">{{ error }}</div>
+
+<div *ngIf="factura" id="facturaPDF">
+  <h2>Factura {{ factura.numero }}</h2>
+  <p>Cliente: {{ factura.cliente }}</p>
+  <p>Fecha: {{ factura.fechaEmision | date:'short' }}</p>
+  <p>Método de Pago: {{ factura.metodoPago }}</p>
+
+  <table class="table table-bordered mt-3">
+    <thead>
+      <tr>
+        <th>Producto</th>
+        <th>Cantidad</th>
+        <th>Precio Unitario</th>
+        <th>Subtotal</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let item of factura.detalles">
+        <td>{{ item.productoNombre }}</td>
+        <td>{{ item.cantidad }}</td>
+        <td>{{ item.precioUnitario | currency }}</td>
+        <td>{{ item.subtotal | currency }}</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <p>IVA: {{ factura.iva | currency }}</p>
+  <p><strong>Total: {{ factura.total | currency }}</strong></p>
+</div>
+
+<button (click)="descargarPDF()" class="btn btn-primary mt-3">Descargar PDF</button>
+

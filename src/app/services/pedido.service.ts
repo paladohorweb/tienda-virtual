@@ -1,3 +1,4 @@
+import { FacturaDto } from './../models/factura.dto';
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
@@ -6,6 +7,7 @@ import { environment } from '../../environments/environment';
 import { AuthService } from './auth.service';
 import { Pedido } from '../models/pedido.model';
 import { DetallePedidoRequest } from '../models/detallePedidoRequest';
+
 
 interface PedidoResponse {
   status: string;
@@ -105,6 +107,13 @@ export class PedidoService {
     }
     return new Error(error.message || 'Error desconocido en el servidor');
   }
+
+  generarFactura(pedidoId: number): Observable<FacturaDto> {
+  const url = `${environment.apiUrl}/facturas/pedido/${pedidoId}`;
+  return this.http.get<FacturaDto>(url, {
+    headers: this.getAuthHeaders()
+  });
+}
 }
 
 
