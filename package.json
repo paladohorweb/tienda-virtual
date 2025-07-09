@@ -22,6 +22,7 @@
     "bootstrap": "^5.3.3",
     "canvas-confetti": "^1.9.3",
     "html2canvas": "^1.4.1",
+    "html2pdf.js": "^0.10.3",
     "idb": "^8.0.2",
     "jspdf": "^3.0.1",
     "rxjs": "~7.8.0",

@@ -10,7 +10,6 @@ import { Rol } from '../../models/usuario.model';
   standalone: true,
   imports: [CommonModule],
   templateUrl: './carrito.component.html'
-
 })
 export class CarritoComponent implements OnInit {
   carrito: Carrito | null = null;
@@ -40,19 +39,21 @@ export class CarritoComponent implements OnInit {
     });
   }
 
-  actualizarCantidad(productoId: number, event: Event) {
-    const inputElement = event.target as HTMLInputElement;
-    const nuevaCantidad = Number(inputElement.value);
-    if (nuevaCantidad < 1) return;
+  actualizarCantidad(productoId: number, nuevaCantidad: number) {
+    if (nuevaCantidad < 1) {
+      this.eliminarProducto(productoId);
+      return;
+    }
 
     this.carritoService.agregarProducto(productoId, nuevaCantidad).subscribe({
-      next: () => {
-        this.cargarCarrito();
-      },
-      error: (err) => {
-        console.error('❌ Error al actualizar cantidad', err);
-      },
+      next: () => this.cargarCarrito(),
+      error: (err) => console.error('❌ Error al actualizar cantidad', err)
     });
+  }
+
+  cambiarCantidad(productoId: number, cantidadActual: number, delta: number) {
+    const nuevaCantidad = cantidadActual + delta;
+    this.actualizarCantidad(productoId, nuevaCantidad);
   }
 
   eliminarProducto(productoId: number) {
@@ -63,12 +64,17 @@ export class CarritoComponent implements OnInit {
 
   vaciarCarrito() {
     this.carritoService.vaciarCarrito().subscribe(() => {
-      this.carrito = { id: 0, usuario: {
-        id: this.usuarioId!,
-        email: '',
-        password: '',
-        rol: Rol.ADMIN
-      }, items: [], total: 0 };
+      this.carrito = {
+        id: 0,
+        usuario: {
+          id: this.usuarioId!,
+          email: '',
+          password: '',
+          rol: Rol.CLIENTE
+        },
+        items: [],
+        total: 0
+      };
     });
   }
 
@@ -80,6 +86,3 @@ export class CarritoComponent implements OnInit {
     this.router.navigate(['/checkout']);
   }
 }
-
-
-

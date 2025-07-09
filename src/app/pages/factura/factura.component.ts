@@ -5,6 +5,8 @@ import { ActivatedRoute } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import html2canvas from 'html2canvas';
 import jsPDF from 'jspdf';
+import { Router } from '@angular/router';
+import html2pdf from 'html2pdf.js';
 
 @Component({
   selector: 'app-factura',
@@ -14,13 +16,16 @@ import jsPDF from 'jspdf';
 
 })
 export class FacturaComponent implements OnInit {
-    factura!: FacturaDto;
+
+   factura!: FacturaDto;
     cargando = true;
     error:string | null = null;
 
     constructor(private facturaService: FacturaService,
-      private route: ActivatedRoute
+      private route: ActivatedRoute,
+      private router: Router
     ){}
+
 
     ngOnInit():void{
         const pedidoId = Number (this.route.snapshot.paramMap.get('pedidoId'));
@@ -29,6 +34,9 @@ export class FacturaComponent implements OnInit {
                 next:(data) =>{
                   this.factura = data;
                   this.cargando = false;
+
+                   // Descarga automática después de 3 segundos
+        this.descargarFacturaConRetraso();
                 },
                 error:(err) => {
                   this.error = 'No se pudo cargar la factura';
@@ -39,6 +47,50 @@ export class FacturaComponent implements OnInit {
         }
 
     }
+
+
+
+descargarFactura() {
+  const contenido = document.getElementById('factura'); // Asegúrate de que la factura esté dentro de un div con id="factura"
+
+  if (contenido) {
+    import('html2pdf.js').then(html2pdf => {
+      html2pdf.default().from(contenido).save('Factura.pdf');
+    });
+  }
+}
+
+
+
+
+descargarFacturaConRetraso() {
+  const contenido = document.getElementById('factura');
+
+  if (contenido) {
+    // Esperar 3 segundos antes de iniciar la descarga
+    setTimeout(() => {
+      html2pdf()
+        .from(contenido)
+        .set({
+          margin: 10,
+          filename: 'Factura.pdf',
+          image: { type: 'jpeg', quality: 0.98 },
+          html2canvas: { scale: 2 },
+          jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
+        })
+        .save();
+        this.cerrarFactura()
+    }, 3000); // 3000 milisegundos = 3 segundos
+  }
+}
+
+
+cerrarFactura() {
+  // Por ejemplo, redirigir al home o a los pedidos
+  this.router.navigate(['/']);
+}
+
+
 
       descargarPDF(): void {
     const contenido = document.getElementById('facturaPDF');

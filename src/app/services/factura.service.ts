@@ -20,9 +20,9 @@ export class FacturaService {
     });
   }
 
-generarFactura(pedidoId: number): Observable<FacturaDto> {
-  const url = `${environment.apiUrl}/facturas/pedido/${pedidoId}`;
-  return this.http.get<FacturaDto>(url, {
+    generarFactura(pedidoId: number): Observable<FacturaDto> {
+  const url = `${this.apiUrl}/generar/${pedidoId}`;
+  return this.http.post<FacturaDto>(url, null, {
     headers: this.getAuthHeaders()
   });
 }

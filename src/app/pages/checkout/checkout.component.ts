@@ -100,12 +100,12 @@ private procesarPago(pedidoId: number): void {
         next: () => {
           console.log('🧾 Factura generada automáticamente');
           // ✅ Limpiar carrito
-          this.carritoService.limpiarCarrito().subscribe({
+          this.carritoService.vaciarCarrito().subscribe({
             next: () => {
               this.cargando = false;
               this.router.navigate(['/factura', pedidoId]); // Redirige a página de factura
             },
-            error: (err) => {
+            error: (err: any) => {
               console.error('⚠️ Error al vaciar el carrito:', err);
               this.cargando = false;
               this.error = 'Pago realizado, pero hubo un problema al vaciar el carrito.';
