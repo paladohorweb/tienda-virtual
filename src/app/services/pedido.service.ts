@@ -114,6 +114,33 @@ export class PedidoService {
     headers: this.getAuthHeaders()
   });
 }
+
+    /** 🔹 Cancelar un pedido */
+cancelarPedido(pedidoId: number): Observable<any> {
+  return this.http.put<any>(
+    `${this.apiUrl}/cancelar/${pedidoId}`,
+    {}, // cuerpo vacío
+    { headers: this.getAuthHeaders() }
+  );
+}
+
+/** 🔹 Pagar un pedido pendiente */
+pagarPedido(pedidoId: number): Observable<any> {
+  return this.http.put<any>(
+    `${this.apiUrl}/pagar/${pedidoId}`,
+    {}, // cuerpo vacío, si solo envías ID por path
+    {
+      headers: this.getAuthHeaders()
+    }
+  ).pipe(
+    tap(res => console.log('✅ Pedido pagado:', res)),
+    catchError(error => {
+      console.error('❌ Error al pagar pedido:', error);
+      return throwError(() => error);
+    })
+  );
+}
+
 }
 
 

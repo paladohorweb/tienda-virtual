@@ -1,5 +1,5 @@
 <div class="container mt-4">
-  <h2>Mis Pedidos</h2>
+  <h2 class="mb-4">📦 Mis Pedidos</h2>
 
   <div *ngIf="errorMessage" class="alert alert-danger">
     {{ errorMessage }}
@@ -9,19 +9,58 @@
     No tienes pedidos aún.
   </div>
 
-  <div *ngFor="let pedido of pedidos" class="card mt-3">
-    <div class="card-header">
-      <strong>Pedido #{{ pedido.id }}</strong> - {{ pedido.estado }}
+  <div *ngFor="let pedido of pedidos" class="card mb-3 shadow-sm">
+    <div class="card-header d-flex justify-content-between align-items-center">
+      <div>
+        <strong>Pedido #{{ pedido.id }}</strong> -
+        <span class="badge"
+              [ngClass]="{
+                'bg-warning text-dark': pedido.estado === EstadoPedido.PENDIENTE,
+                'bg-success': pedido.estado === EstadoPedido.PAGADO,
+                'bg-primary': pedido.estado === EstadoPedido.ENVIADO,
+                'bg-danger': pedido.estado === EstadoPedido.CANCELADO
+              }">
+          {{ pedido.estado }}
+        </span>
+      </div>
+      <small class="text-muted">{{ pedido.fechaPedido | date:'medium' }}</small>
     </div>
+
     <div class="card-body">
-      <p><strong>Fecha:</strong> {{ pedido.fechaPedido }}</p>
       <p><strong>Total:</strong> ${{ pedido.total }}</p>
-      <ul>
-        <li *ngFor="let detalle of pedido.detalles">
-          {{ detalle.cantidad }}x {{ detalle.producto }} - ${{ detalle.precioUnitario }}
+
+      <ul class="list-group list-group-flush mb-3">
+        <li class="list-group-item" *ngFor="let detalle of pedido.detalles">
+          {{ detalle.cantidad }} × {{ detalle.producto.nombre }}
+          <span class="text-muted"> - ${{ detalle.precioUnitario }}</span>
         </li>
       </ul>
+
+      <div *ngIf="pedido.estado === EstadoPedido.PAGADO" class="text-end">
+        <button class="btn btn-outline-secondary btn-sm" (click)="verFactura(pedido.id)">
+          🧾 Ver Factura
+        </button>
+
+      </div>
+      <div *ngIf="esPendiente(pedido)">
+                     <button
+
+    class="btn btn-success btn-sm me-2"
+    (click)="pagarPedido(pedido.id)"
+  >
+    💳 Pagar Ahora
+  </button>
+
+  <button
+    
+    class="btn btn-outline-danger btn-sm"
+    (click)="cancelarPedido(pedido.id)"
+  >
+    🛑 Cancelar Pedido
+  </button>
+
+      </div>
+
     </div>
   </div>
 </div>
-
