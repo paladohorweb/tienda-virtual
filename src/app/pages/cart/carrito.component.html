@@ -2,29 +2,29 @@
   <h2 class="my-4">🛒 Mi Carrito</h2>
 
   <div *ngIf="carrito && carrito.items.length > 0; else carritoVacio">
-    <table class="table table-bordered align-middle">
+    <table class="table table-bordered">
       <thead class="table-light">
         <tr>
           <th>Producto</th>
-          <th class="text-center">Cantidad</th>
+          <th>Cantidad</th>
           <th>Precio</th>
           <th>Subtotal</th>
-          <th class="text-center">Acciones</th>
+          <th>Acciones</th>
         </tr>
       </thead>
       <tbody>
         <tr *ngFor="let item of carrito.items">
           <td>{{ item.producto.nombre }}</td>
-          <td class="text-center">
-            <div class="d-flex justify-content-center align-items-center">
-              <button class="btn btn-sm btn-outline-secondary me-1" (click)="cambiarCantidad(item.producto.id, item.cantidad, -1)">−</button>
-              <span class="px-2">{{ item.cantidad }}</span>
-              <button class="btn btn-sm btn-outline-secondary ms-1" (click)="cambiarCantidad(item.producto.id, item.cantidad, 1)">+</button>
+          <td>
+            <div class="input-group" style="max-width: 130px;">
+              <button class="btn btn-outline-secondary" type="button" (click)="modificarCantidad(item.producto.id, item.cantidad - 1)">−</button>
+              <input type="text" class="form-control text-center" [value]="item.cantidad" readonly>
+              <button class="btn btn-outline-secondary" type="button" (click)="modificarCantidad(item.producto.id, item.cantidad + 1)">+</button>
             </div>
           </td>
-          <td>${{ item.producto.precio | number:'1.2-2' }}</td>
-          <td>${{ (item.producto.precio * item.cantidad) | number:'1.2-2' }}</td>
-          <td class="text-center">
+          <td>${{ item.producto.precio }}</td>
+          <td>${{ item.producto.precio * item.cantidad }}</td>
+          <td>
             <button class="btn btn-danger btn-sm" (click)="eliminarProducto(item.producto.id)">
               🗑 Eliminar
             </button>
@@ -33,17 +33,17 @@
       </tbody>
     </table>
 
-    <div class="alert alert-info text-end fs-5">
-      <strong>Total: ${{ carrito.total | number:'1.2-2' }}</strong>
+    <div class="alert alert-info text-end">
+      <strong>Total: ${{ carrito.total }}</strong>
     </div>
 
     <div class="d-flex justify-content-between">
-      <button class="btn btn-outline-danger" (click)="vaciarCarrito()">🧹 Vaciar Carrito</button>
+      <button class="btn btn-warning" (click)="vaciarCarrito()">🗑 Vaciar Carrito</button>
       <button class="btn btn-success" (click)="irAlCheckout()">✅ Finalizar Compra</button>
     </div>
   </div>
 
   <ng-template #carritoVacio>
-    <div class="alert alert-warning mt-4">❌ Tu carrito está vacío.</div>
+    <div class="alert alert-warning">❌ Tu carrito está vacío.</div>
   </ng-template>
 </div>

@@ -39,22 +39,24 @@ export class CarritoComponent implements OnInit {
     });
   }
 
-  actualizarCantidad(productoId: number, nuevaCantidad: number) {
-    if (nuevaCantidad < 1) {
+ modificarCantidad(productoId: number, nuevaCantidad: number) {
+  const item = this.carrito?.items.find(i => i.producto.id === productoId);
+  if (!item) return;
+
+  const diferencia = nuevaCantidad - item.cantidad;
+
+  if (nuevaCantidad < 1) {
+    if (confirm('¿Deseas eliminar este producto del carrito?')) {
       this.eliminarProducto(productoId);
-      return;
     }
-
-    this.carritoService.agregarProducto(productoId, nuevaCantidad).subscribe({
-      next: () => this.cargarCarrito(),
-      error: (err) => console.error('❌ Error al actualizar cantidad', err)
-    });
+    return;
   }
 
-  cambiarCantidad(productoId: number, cantidadActual: number, delta: number) {
-    const nuevaCantidad = cantidadActual + delta;
-    this.actualizarCantidad(productoId, nuevaCantidad);
-  }
+  this.carritoService.agregarProducto(productoId, diferencia).subscribe({
+    next: () => this.cargarCarrito(),
+    error: (err) => console.error('❌ Error al modificar cantidad', err)
+  });
+}
 
   eliminarProducto(productoId: number) {
     this.carritoService.eliminarProducto(productoId).subscribe(() => {
@@ -70,7 +72,7 @@ export class CarritoComponent implements OnInit {
           id: this.usuarioId!,
           email: '',
           password: '',
-          rol: Rol.CLIENTE
+          rol: Rol.ADMIN
         },
         items: [],
         total: 0
