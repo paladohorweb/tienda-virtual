@@ -1,29 +1,11 @@
-<div class="container mt-5 text-center animate__animated animate__fadeIn">
-  <div class="card shadow-lg p-4 border-0 rounded-4">
-    <div class="card-body">
-      <h2 class="text-success mb-4 display-6 fw-bold">🎉 ¡Gracias por tu compra!</h2>
-
-      <p class="lead">Tu pedido ha sido procesado exitosamente.</p>
-
-      <div class="my-4">
-        <img src="https://cdn-icons-png.flaticon.com/512/190/190411.png" alt="Compra confirmada" width="120" />
-      </div>
-
-      <div class="alert alert-success fw-bold fs-5">
-        Número de pedido: <span class="text-primary">#{{ pedidoId }}</span>
-      </div>
-
-      <p class="text-muted">En breve recibirás un correo con los detalles de tu compra.</p>
-
-      <div class="d-flex justify-content-center gap-3 mt-4 flex-wrap">
-        <a routerLink="/products" class="btn btn-outline-primary btn-lg">
-          🛍️ Seguir Comprando
-        </a>
-        <a routerLink="/pedidos" class="btn btn-success btn-lg">
-          📦 Ver mis Pedidos
-        </a>
-      </div>
-    </div>
-  </div>
+<div class="d-flex justify-content-center gap-3 mt-4 flex-wrap">
+  <a routerLink="/products" class="btn btn-outline-primary btn-lg">
+    🛍️ Seguir Comprando
+  </a>
+  <a routerLink="/pedidos" class="btn btn-success btn-lg">
+    📦 Ver mis Pedidos
+  </a>
+  <a [routerLink]="['/factura', pedidoId]" class="btn btn-warning btn-lg text-white">
+    🧾 Ver Factura
+  </a>
 </div>
-

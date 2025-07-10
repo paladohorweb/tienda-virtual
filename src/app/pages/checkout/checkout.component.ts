@@ -103,7 +103,9 @@ private procesarPago(pedidoId: number): void {
           this.carritoService.vaciarCarrito().subscribe({
             next: () => {
               this.cargando = false;
-              this.router.navigate(['/factura', pedidoId]); // Redirige a página de factura
+              //this.router.navigate(['/factura', pedidoId]); // Redirige a página de factura
+              // Redirigir primero a la página de confirmación
+              this.router.navigate(['/confirmacion', pedidoId]);
             },
             error: (err: any) => {
               console.error('⚠️ Error al vaciar el carrito:', err);
