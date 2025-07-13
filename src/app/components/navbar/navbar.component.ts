@@ -13,11 +13,13 @@ import { AuthService } from '../../services/auth.service';
 export class NavbarComponent {
   @ViewChild('navbarNav', { static: false }) navbarNav!: ElementRef;
   isAuthenticated = false;
+  usuario: any = null;
 
 
   constructor(private authService: AuthService) {
     this.authService.getAuthStatus().subscribe(status => {
       this.isAuthenticated = status;
+       this.usuario = status ? this.authService.getUsuario() : null;
     });
   }
 

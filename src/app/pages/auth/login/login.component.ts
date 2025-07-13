@@ -29,7 +29,7 @@ export class LoginComponent {
         console.log('Token:', sessionStorage.getItem('authToken'));
         console.log('Usuario ID:', sessionStorage.getItem('usuarioId'));
 
-        this.router.navigate(['/']).then(() => {
+        this.router.navigate(['/cart']).then(() => {
           window.location.reload(); // 🔄 Recargar la página para actualizar estado
         });
       },

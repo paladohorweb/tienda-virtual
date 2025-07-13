@@ -6,6 +6,10 @@ import { PagoComponent } from './pages/pagos/pago.component';
 import { ConfirmacionComponent } from './pages/confirmacion/confirmacion.component';
 
 export const appRoutes: Routes = [
+  {
+  path: 'register',
+  loadComponent: () => import('./pages/auth/register/register.component').then(m => m.RegisterComponent)
+},
   { path:'login', component:LoginComponent},
   { path: '', redirectTo: 'home', pathMatch: 'full' }, // Redirige a 'home' por defecto
   { path: 'home', component: HomeComponent }, // Ruta para la página de inicio

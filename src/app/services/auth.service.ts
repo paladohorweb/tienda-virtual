@@ -33,6 +33,15 @@ export class AuthService {
     );
   }
 
+
+  /** 🔹 Registrar nuevo usuario */
+register(data: { nombre: string; email: string; password: string }): Observable<any> {
+  return this.http.post(`${this.apiUrl}/register`, data);
+}
+
+
+
+
   /** 🔹 Cerrar sesión */
   logout() {
     sessionStorage.removeItem(this.authTokenKey);
