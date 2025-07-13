@@ -25,7 +25,7 @@ interface PedidoResponse {
   providedIn: 'root'
 })
 export class PedidoService {
-  private apiUrl = `${environment.apiUrl}/pedidos`;
+  private apiUrl = `${environment.apiUrl}/api/pedidos`;
 
   constructor(private http: HttpClient, private authService: AuthService) {}
 

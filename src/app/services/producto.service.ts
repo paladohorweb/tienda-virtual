@@ -25,7 +25,9 @@ export class ProductoService {
           descripcion: p.descripcion,
           precio: p.precio,
           stock: p.stock ?? 0,       // 🔹 Evita undefined en stock
-          imagenUrl: p.imagen,          // 🔹 Usa el nombre correcto
+           imagenUrl: p.imagen
+          ? `assets/img/${p.imagen}`
+          : 'assets/img/default.jpg'           // 🔹 Usa el nombre correcto
         }))
       )
     );
