@@ -12,7 +12,7 @@ import { Producto } from '../../models/producto.model';
 })
 export class AdminProductosComponent implements OnInit {
   productos: Producto[] = [];
-  modelo: Producto = { id: 0, nombre: '', descripcion: '', precio: 0, stock: 0, imagen: '' };
+  modelo: Producto = { id: 0, nombre: '', descripcion: '', precio: 0, stock: 0, imagenUrl: '' };
   editando = false;
 
   constructor(private svc: AdminProductoService) {}
@@ -29,7 +29,7 @@ export class AdminProductosComponent implements OnInit {
   }
 
   nuevo() {
-    this.modelo = { id:0, nombre:'', descripcion:'', precio:0, stock:0, imagen:'' };
+    this.modelo = { id:0, nombre:'', descripcion:'', precio:0, stock:0, imagenUrl:'' };
     this.editando = true;
   }
 

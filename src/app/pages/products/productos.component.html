@@ -4,7 +4,7 @@
   <div class="row">
     <div *ngFor="let producto of productosFiltrados" class="col-md-4 col-sm-6 mb-4">
       <div class="card h-100 shadow-sm">
-        <img [src]="producto.imagen" class="card-img-top" alt="{{ producto.nombre }}">
+        <img [src]="producto.imagenUrl" class="card-img-top" alt="{{ producto.nombre }}">
         <div class="card-body text-center">
           <h5 class="card-title">{{ producto.nombre }}</h5>
           <p class="card-text text-muted">{{ producto.descripcion }}</p>

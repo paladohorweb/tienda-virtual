@@ -6,7 +6,7 @@
       <div class="carousel-item" *ngFor="let product of featuredProducts; let i = index" [class.active]="i === 0">
         <div class="d-flex justify-content-center">
           <div class="card" style="width: 22rem;">
-            <img [src]="product.imagen" class="card-img-top" [alt]="product.nombre" style="height: 250px; object-fit: cover;">
+            <img [src]="product.imagenUrl" class="card-img-top" [alt]="product.nombre" style="height: 250px; object-fit: cover;">
             <div class="card-body text-center">
               <h5 class="card-title">{{ product.nombre }}</h5>
               <p class="card-text">{{ product.descripcion }}</p>

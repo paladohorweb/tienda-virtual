@@ -46,6 +46,7 @@ register(data: { nombre: string; email: string; password: string }): Observable<
   logout() {
     sessionStorage.removeItem(this.authTokenKey);
     sessionStorage.removeItem(this.usuarioIdKey);
+     sessionStorage.removeItem('usuario');
     this.isLoggedInSubject.next(false);
     console.log('🚪 Usuario cerró sesión.');
   }

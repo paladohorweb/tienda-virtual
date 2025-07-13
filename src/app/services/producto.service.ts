@@ -10,7 +10,7 @@ import { environment } from '../../environments/environment';
 })
 export class ProductoService {
   [x: string]: any;
-  private apiUrl = `${environment.apiUrl}/productos`;  // 🔹 Asegúrate de que la URL es correcta
+  private apiUrl = `${environment.apiUrl}/api/productos`;  // 🔹 Asegúrate de que la URL es correcta
 
   constructor(private http: HttpClient) {}
 
@@ -25,7 +25,7 @@ export class ProductoService {
           descripcion: p.descripcion,
           precio: p.precio,
           stock: p.stock ?? 0,       // 🔹 Evita undefined en stock
-          imagen: p.imagen,          // 🔹 Usa el nombre correcto
+          imagenUrl: p.imagen,          // 🔹 Usa el nombre correcto
         }))
       )
     );
@@ -41,7 +41,7 @@ export class ProductoService {
         descripcion: p.descripcion,
         precio: p.precio,
         stock: p.stock ?? 0,
-        imagen: p.imagen
+        imagenUrl: p.imagen
           ? `assets/img/${p.imagen}`
           : 'assets/img/default.jpg' // ✅ Ruta local de imagen si no hay
       }))

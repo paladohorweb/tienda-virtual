@@ -31,15 +31,15 @@ export class LoginComponent {
 
         const usuario = response.usuario;
     if (usuario.rol === 'ROLE_ADMIN') {
-      this.router.navigate(['/perfil']); // o dashboard admin si prefieres
+      this.router.navigate(['/admin/productos']); // o dashboard admin si prefieres
     } else {
       this.router.navigate(['/']); // Página home u otra
     }
 
 
-        this.router.navigate(['/cart']).then(() => {
-          window.location.reload(); // 🔄 Recargar la página para actualizar estado
-        });
+       // this.router.navigate(['/']).then(() => {
+          //window.location.reload(); // 🔄 Recargar la página para actualizar estado
+        //});
       },
       error: (err) => {
         console.error('❌ Error al iniciar sesión', err);

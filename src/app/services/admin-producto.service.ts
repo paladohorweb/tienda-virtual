@@ -7,23 +7,24 @@ import { Producto } from "../models/producto.model";
 
 @Injectable({ providedIn: 'root' })
 export class AdminProductoService {
-  private url = `${environment.apiUrl}/admin/productos`;
-  constructor(private http: HttpClient, private auth: AuthService) {}
 
-  private headers() {
-    return { headers: new HttpHeaders({ 'Authorization': `Bearer ${this.auth.getToken()}` }) };
-  }
+
+  private url = `${environment.apiUrl}/admin/productos`;
+  constructor(private http: HttpClient) {}
 
   listar(): Observable<Producto[]> {
-    return this.http.get<Producto[]>(this.url, this.headers());
+    return this.http.get<Producto[]>(this.url);
   }
+
   crear(prod: Producto): Observable<Producto> {
-    return this.http.post<Producto>(this.url, prod, this.headers());
+    return this.http.post<Producto>(this.url, prod);
   }
+
   actualizar(prod: Producto): Observable<Producto> {
-    return this.http.put<Producto>(`${this.url}/${prod.id}`, prod, this.headers());
+    return this.http.put<Producto>(`${this.url}/${prod.id}`, prod);
   }
+
   eliminar(id: number): Observable<void> {
-    return this.http.delete<void>(`${this.url}/${id}`, this.headers());
+    return this.http.delete<void>(`${this.url}/${id}`);
   }
 }
