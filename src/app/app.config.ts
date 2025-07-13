@@ -16,6 +16,7 @@ const routes: Routes = [
   { path: 'pedidos', component: PedidoComponent},
   { path: 'login', component: LoginComponent },
   { path: 'register', component: RegisterComponent },
+  
   { path: '**', redirectTo: '' }
 ];
 

@@ -23,6 +23,11 @@ export class NavbarComponent {
     });
   }
 
+esAdmin(): boolean {
+  return this.usuario?.rol === 'ROLE_ADMIN';
+}
+
+
   logout() {
     this.authService.logout();
   }

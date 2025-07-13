@@ -24,10 +24,18 @@ export class LoginComponent {
     }
 
     this.authService.login(this.credentials).subscribe({
-      next: () => {
+      next: (response) => {
         console.log('✅ Login exitoso.');
         console.log('Token:', sessionStorage.getItem('authToken'));
         console.log('Usuario ID:', sessionStorage.getItem('usuarioId'));
+
+        const usuario = response.usuario;
+    if (usuario.rol === 'ROLE_ADMIN') {
+      this.router.navigate(['/perfil']); // o dashboard admin si prefieres
+    } else {
+      this.router.navigate(['/']); // Página home u otra
+    }
+
 
         this.router.navigate(['/cart']).then(() => {
           window.location.reload(); // 🔄 Recargar la página para actualizar estado

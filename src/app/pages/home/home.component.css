@@ -51,3 +51,15 @@
   background: #f8f9fa;
   border-radius: 10px;
 }
+h2 {
+  font-weight: 600;
+  color: #333;
+}
+
+.card-title {
+  font-size: 1.2rem;
+}
+
+.card-text {
+  font-size: 0.95rem;
+}

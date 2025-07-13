@@ -1,0 +1,31 @@
+<div class="container mt-4">
+  <h3>Gestión de Productos</h3>
+  <button class="btn btn-primary mb-3" (click)="nuevo()">+ Nuevo</button>
+
+  <div *ngIf="editando" class="card p-3 mb-3">
+    <div class="row g-2">
+      <div class="col"><input [(ngModel)]="modelo.nombre" class="form-control" placeholder="Nombre"></div>
+      <div class="col"><input [(ngModel)]="modelo.descripcion" class="form-control" placeholder="Descripción"></div>
+      <div class="col"><input type="number" [(ngModel)]="modelo.precio" class="form-control" placeholder="Precio"></div>
+      <div class="col"><input type="number" [(ngModel)]="modelo.stock" class="form-control" placeholder="Stock"></div>
+      <div class="col"><input [(ngModel)]="modelo.imagen" class="form-control" placeholder="Imagen"></div>
+    </div>
+    <div class="mt-2 text-end">
+      <button class="btn btn-success me-2" (click)="guardar()">Guardar</button>
+      <button class="btn btn-secondary" (click)="editando=false">Cancelar</button>
+    </div>
+  </div>
+
+  <table class="table table-striped">
+    <thead><tr><th>ID</th><th>Nombre</th><th>Stock</th><th>Precio</th><th></th></tr></thead>
+    <tbody>
+      <tr *ngFor="let p of productos">
+        <td>{{p.id}}</td><td>{{p.nombre}}</td><td>{{p.stock}}</td><td>{{p.precio | currency}}</td>
+        <td>
+          <button class="btn btn-sm btn-primary me-1" (click)="editar(p)">Editar</button>
+          <button class="btn btn-sm btn-danger" (click)="eliminar(p.id!)">Eliminar</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>

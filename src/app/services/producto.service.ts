@@ -14,6 +14,8 @@ export class ProductoService {
 
   constructor(private http: HttpClient) {}
 
+
+  //
   obtenerProductos(): Observable<Producto[]> {
     return this.http.get<Producto[]>(this.apiUrl).pipe(
       map((productos: any[]) =>
@@ -28,5 +30,36 @@ export class ProductoService {
       )
     );
   }
+
+
+  obtenerProductosDestacados(): Observable<Producto[]> {
+  return this.http.get<Producto[]>(`${this.apiUrl}/destacados`).pipe(
+    map((productos: any[]) =>
+      productos.map((p: any) => ({
+        id: p.id,
+        nombre: p.nombre,
+        descripcion: p.descripcion,
+        precio: p.precio,
+        stock: p.stock ?? 0,
+        imagen: p.imagen
+          ? `assets/img/${p.imagen}`
+          : 'assets/img/default.jpg' // ✅ Ruta local de imagen si no hay
+      }))
+    )
+  );
+}
+
+
+crearProducto(producto: Producto): Observable<Producto> {
+  return this.http.post<Producto>(this.apiUrl, producto);
+}
+
+actualizarProducto(id: number, producto: Producto): Observable<Producto> {
+  return this.http.put<Producto>(`${this.apiUrl}/${producto.id}`, producto);
+}
+
+eliminarProducto(id: number): Observable<void> {
+  return this.http.delete<void>(`${this.apiUrl}/${id}`);
+}
 }
 
