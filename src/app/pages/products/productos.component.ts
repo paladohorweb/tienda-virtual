@@ -11,12 +11,14 @@ import { AuthService } from '../../services/auth.service';
   selector: 'app-productos',
   standalone: true,
   imports: [CommonModule, FormsModule],
-  templateUrl: './productos.component.html'
+  templateUrl: './productos.component.html',
+  styleUrls: ['./productos.component.css'] // Asegúrate de tenerlo creado
 })
 export class ProductosComponent implements OnInit {
   productos: Producto[] = [];
   productosFiltrados: Producto[] = [];
   filtro: string = '';
+  totalArticulos: number = 0; // Contador del carrito
 
   constructor(
     private productoService: ProductoService,
@@ -27,6 +29,7 @@ export class ProductosComponent implements OnInit {
 
   ngOnInit(): void {
     this.obtenerProductos();
+     this.obtenerCantidadArticulos();
   }
 
   obtenerProductos() {
@@ -52,11 +55,23 @@ export class ProductosComponent implements OnInit {
     this.carritoService.agregarProducto(producto.id, 1).subscribe({
       next: () => {
         alert('✅ Producto agregado al carrito');
+        this.obtenerCantidadArticulos(); // actualizar contador
         //this.router.navigate(['/carrito']);
       },
       error: (err) => {
         console.error('❌ Error al agregar al carrito', err);
         alert('❌ No se pudo agregar el producto al carrito');
+      }
+    });
+  }
+
+    obtenerCantidadArticulos() {
+    this.carritoService.obtenerCantidadTotal().subscribe({
+      next: (cantidad: number) => {
+        this.totalArticulos = cantidad;
+      },
+      error: () => {
+        this.totalArticulos = 0;
       }
     });
   }

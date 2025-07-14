@@ -82,4 +82,18 @@ export class CarritoService {
     console.error('Error en CarritoService:', error);
     return throwError(() => new Error(error.message || 'Error desconocido'));
   }
+
+
+  obtenerCantidadTotal(): Observable<number> {
+  const usuarioId = this.authService.getUsuarioId();
+  if (!usuarioId) return throwError(() => new Error('Usuario no autenticado'));
+
+  return this.http.get<number>(
+    `${this.apiUrl}/cantidad/${usuarioId}`,
+    { headers: this.getAuthHeaders() }
+  ).pipe(
+    tap(data => console.log('Cantidad total en carrito:', data)),
+    catchError(this.handleError)
+  );
+}
 }
