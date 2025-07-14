@@ -10,7 +10,7 @@ import { AuthService } from './auth.service';
   providedIn: 'root',
 })
 export class CarritoService {
-  private apiUrl = `${environment.apiUrl}/carrito`;
+  private apiUrl = `${environment.apiUrl}/api/carrito`;
 
   constructor(
     private http: HttpClient,

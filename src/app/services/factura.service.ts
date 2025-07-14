@@ -9,7 +9,7 @@ import { FacturaDto } from '../models/factura.dto';
 })
 export class FacturaService {
 
-  private apiUrl = `${environment.apiUrl}/facturas`;
+  private apiUrl = `${environment.apiUrl}/api/facturas`;
 
   constructor(private http: HttpClient) {}
 

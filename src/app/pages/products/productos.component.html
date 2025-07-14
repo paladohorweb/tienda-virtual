@@ -2,21 +2,21 @@
   <h2 class="text-center mb-4">🛍️ Productos Disponibles</h2>
 
   <div class="row">
-    <div *ngFor="let producto of productosFiltrados" class="col-md-4 col-sm-6 mb-4">
+    <div *ngFor="let product of productosFiltrados" class="col-md-4 col-sm-6 mb-4">
       <div class="card h-100 shadow-sm">
-        <img [src]="producto.imagenUrl" class="card-img-top" alt="{{ producto.nombre }}">
+        <img [src]="product.imagenUrl" class="card-img-top" alt="{{ product.nombre }}">
         <div class="card-body text-center">
-          <h5 class="card-title">{{ producto.nombre }}</h5>
-          <p class="card-text text-muted">{{ producto.descripcion }}</p>
-          <p class="fw-bold text-success">${{ producto.precio }}</p>
+          <h5 class="card-title">{{ product.nombre }}</h5>
+          <p class="card-text text-muted">{{ product.descripcion }}</p>
+          <p class="fw-bold text-success">${{ product.precio }}</p>
 
-          <p *ngIf="producto.stock > 0" class="fw-bold text-primary">Stock: {{ producto.stock }}</p>
-          <p *ngIf="producto.stock === 0" class="fw-bold text-danger">🚫 Sin stock</p>
+          <p *ngIf="product.stock > 0" class="fw-bold text-primary">Stock: {{ product.stock }}</p>
+          <p *ngIf="product.stock === 0" class="fw-bold text-danger">🚫 Sin stock</p>
 
           <button
             class="btn btn-primary w-100"
-            [disabled]="producto.stock === 0"
-            (click)="agregarAlCarrito(producto)">
+            [disabled]="product.stock === 0"
+            (click)="agregarAlCarrito(product)">
             🛒 Agregar al Carrito
           </button>
         </div>

@@ -25,8 +25,8 @@ export class ProductoService {
           descripcion: p.descripcion,
           precio: p.precio,
           stock: p.stock ?? 0,       // 🔹 Evita undefined en stock
-           imagenUrl: p.imagen
-          ? `assets/img/${p.imagen}`
+           imagenUrl: p.imagenUrl
+          ? `assets/img/${p.imagenUrl}`
           : 'assets/img/default.jpg'           // 🔹 Usa el nombre correcto
         }))
       )
@@ -43,8 +43,8 @@ export class ProductoService {
         descripcion: p.descripcion,
         precio: p.precio,
         stock: p.stock ?? 0,
-        imagenUrl: p.imagen
-          ? `assets/img/${p.imagen}`
+        imagenUrl: p.imagenUrl
+          ? `assets/img/${p.imagenUrl}`
           : 'assets/img/default.jpg' // ✅ Ruta local de imagen si no hay
       }))
     )

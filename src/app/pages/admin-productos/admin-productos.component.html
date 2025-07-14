@@ -21,10 +21,10 @@
   </div>
 
   <table class="table table-striped">
-    <thead><tr><th>ID</th><th>Nombre</th><th>Stock</th><th>Precio</th><th>Destacado</th><th>imagenUrl</th></tr></thead>
+    <thead><tr><th>ID</th><th>Nombre</th><th>Descripcion</th><th>Stock</th><th>Precio</th><th>Destacado</th><th>imagenUrl</th></tr></thead>
     <tbody>
       <tr *ngFor="let p of productos">
-        <td>{{p.id}}</td><td>{{p.nombre}}</td><td>{{p.stock}}</td><td>{{p.precio | currency}}</td><td>{{p.destacado}}</td><td>{{p.imagenUrl}}</td>
+        <td>{{p.id}}</td><td>{{p.nombre}}</td><td>{{p.descripcion}}</td><td>{{p.stock}}</td><td>{{p.precio | currency}}</td><td>{{p.destacado}}</td><td>{{p.imagenUrl}}</td>
         <td>
           <button class="btn btn-sm btn-primary me-1" (click)="editar(p)">Editar</button>
           <button class="btn btn-sm btn-danger" (click)="eliminar(p.id!)">Eliminar</button>

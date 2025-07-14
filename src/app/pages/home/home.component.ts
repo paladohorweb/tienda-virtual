@@ -56,42 +56,42 @@ export class HomeComponent implements OnInit {
       name: 'Producto 4',
       description: 'Descripción 5',
       price: 399.99,
-      image: 'assets/img/product4.jpg',
+      image: 'assets/img/product5.jpg',
     },
     {
       id: 4,
       name: 'Producto 4',
       description: 'Descripción 6',
       price: 399.99,
-      image: 'assets/img/product4.jpg',
+      image: 'assets/img/product6.jpg',
     },
     {
       id: 4,
       name: 'Producto 4',
       description: 'Descripción 7',
       price: 399.99,
-      image: 'assets/img/product4.jpg',
+      image: 'assets/img/product7.jpg',
     },
     {
       id: 4,
       name: 'Producto 4',
       description: 'Descripción 8',
       price: 399.99,
-      image: 'assets/img/product4.jpg',
+      image: 'assets/img/product8.jpg',
     },
     {
       id: 4,
       name: 'Producto 4',
       description: 'Descripción 9',
       price: 399.99,
-      image: 'assets/img/product4.jpg',
+      image: 'assets/img/product9.jpg',
     },
     {
       id: 4,
       name: 'Producto 4',
       description: 'Descripción 10',
       price: 399.99,
-      image: 'assets/img/product4.jpg',
+      image: 'assets/img/product10.jpg',
     }, // 🔧 corregido "imagen" a "image"
   ];
 }
