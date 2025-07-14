@@ -9,7 +9,7 @@ import { AuthService } from './auth.service';
   providedIn: 'root'
 })
 export class PagoService {
-  private apiUrl = `${environment.apiUrl}/pagos`;
+  private apiUrl = `${environment.apiUrl}/api/pagos`;
 
   constructor(private http: HttpClient, private authService: AuthService) {}
 

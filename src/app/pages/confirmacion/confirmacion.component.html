@@ -1,11 +1,23 @@
-<div class="d-flex justify-content-center gap-3 mt-4 flex-wrap">
-  <a routerLink="/products" class="btn btn-outline-primary btn-lg">
-    🛍️ Seguir Comprando
-  </a>
-  <a routerLink="/pedidos" class="btn btn-success btn-lg">
-    📦 Ver mis Pedidos
-  </a>
-  <a [routerLink]="['/factura', pedidoId]" class="btn btn-warning btn-lg text-white">
-    🧾 Ver Factura
-  </a>
+<div class="confirmation-container text-center p-5 mx-auto" style="max-width: 480px;">
+  <div class="icon-wrapper mb-4">
+    <svg xmlns="http://www.w3.org/2000/svg" width="72" height="72" fill="green" class="bi bi-check-circle-fill" viewBox="0 0 16 16">
+      <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM6.97 11.03a.75.75 0 0 0 1.07 0l3.992-3.992a.75.75 0 0 0-1.06-1.06L7.5 9.439 6.03 7.97a.75.75 0 0 0-1.06 1.06l2 2z"/>
+    </svg>
+  </div>
+
+  <h1 class="mb-3 fw-bold text-success">¡Compra Exitosa!</h1>
+  <p class="lead mb-4">Gracias por tu compra. Tu pedido <strong>#{{ pedidoId }}</strong> ha sido procesado correctamente.</p>
+
+  <div class="btn-group d-flex justify-content-center gap-3 flex-wrap">
+    <a routerLink="/products" class="btn btn-outline-primary btn-lg flex-fill">
+      🛍️ Seguir Comprando
+    </a>
+    <a routerLink="/pedidos" class="btn btn-success btn-lg flex-fill">
+      📦 Ver mis Pedidos
+    </a>
+    <a [routerLink]="['/factura', pedidoId]" class="btn btn-warning btn-lg text-white flex-fill">
+      🧾 Ver Factura
+    </a>
+  </div>
 </div>
+
