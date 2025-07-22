@@ -1,0 +1,31 @@
+<div class="container mt-5">
+  <h2 class="mb-4">👤 Administrar Usuarios</h2>
+  <table class="table table-bordered table-hover">
+    <thead class="table-dark">
+      <tr>
+        <th>ID</th>
+        <th>Nombre</th>
+        <th>Email</th>
+        <th>Rol</th>
+        <th>Acción</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let usuario of usuarios">
+        <td>{{ usuario.id }}</td>
+        <td><input [(ngModel)]="usuario.nombre" class="form-control"></td>
+        <td><input [(ngModel)]="usuario.email" class="form-control"></td>
+        <td>
+          <select [(ngModel)]="usuario.rol" class="form-select">
+            <option value="ROLE_USER">Usuario</option>
+            <option value="ROLE_ADMIN">Administrador</option>
+          </select>
+        </td>
+        <td>
+          <button (click)="actualizar(usuario)" class="btn btn-sm btn-primary">💾 Guardar</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+

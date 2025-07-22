@@ -10,7 +10,20 @@
           <a class="nav-link" routerLink="/" (click)="closeNavbar()">Inicio</a>
         </li>
         <li class="nav-item" *ngIf="isAuthenticated && esAdmin()">
-          <a class="nav-link" routerLink="/admin/productos" (click)="closeNavbar()">Panel Admin</a>
+          <a
+            class="nav-link"
+            routerLink="/admin/productos"
+            (click)="closeNavbar()"
+            >Panel Admin</a
+          >
+        </li>
+        <li class="nav-item" *ngIf="isAuthenticated && esAdmin()">
+          <a
+            class="nav-link"
+            routerLink="/admin/usuarios"
+            (click)="closeNavbar()"
+            >Usuarios</a
+          >
         </li>
         <li class="nav-item">
           <a class="nav-link" routerLink="/products" (click)="closeNavbar()"
@@ -29,12 +42,14 @@
         </li>
 
         <!-- usuario-->
-      <li class="nav-item" *ngIf="isAuthenticated && usuario">
-  <span class="nav-link disabled">
-    👋 Hola, {{ usuario.nombre || usuario.email }}
-    <span *ngIf="esAdmin()" class="badge bg-warning text-dark ms-2">Admin</span>
-  </span>
-</li>
+        <li class="nav-item" *ngIf="isAuthenticated && usuario">
+          <span class="nav-link disabled">
+            👋 Hola, {{ usuario.nombre || usuario.email }}
+            <span *ngIf="esAdmin()" class="badge bg-warning text-dark ms-2"
+              >Admin</span
+            >
+          </span>
+        </li>
         <!-- 🔓 Mostrar solo si NO está autenticado -->
         <li class="nav-item" *ngIf="!isAuthenticated">
           <a class="nav-link" routerLink="/login" (click)="closeNavbar()"
@@ -47,7 +62,7 @@
           >
         </li>
 
-      <!-- <li class="nav-item" *ngIf="isAuthenticated">
+        <!-- <li class="nav-item" *ngIf="isAuthenticated">
           <a class="nav-link" routerLink="/perfil" (click)="closeNavbar()"
             >Mi Perfil</a
           >

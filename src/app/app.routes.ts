@@ -6,6 +6,7 @@ import { PagoComponent } from './pages/pagos/pago.component';
 import { ConfirmacionComponent } from './pages/confirmacion/confirmacion.component';
 import { authGuard } from './guards/auth.guard';
 import { adminGuard } from './guards/admin.guard';
+import { AdminUsuariosComponent } from './pages/admin-usuarios/admin-usuarios.component';
 
 export const appRoutes: Routes = [
   { path: 'register', loadComponent: () => import('./pages/auth/register/register.component').then(m => m.RegisterComponent) },
@@ -32,6 +33,10 @@ export const appRoutes: Routes = [
     path: 'admin/productos',
     canActivate: [adminGuard],
     loadComponent: () => import('./pages/admin-productos/admin-productos.component').then(m => m.AdminProductosComponent)
+  },
+    {
+    path: 'admin/usuarios',
+    component: AdminUsuariosComponent
   },
 
   { path: '**', redirectTo: 'home' }
