@@ -28,6 +28,10 @@ export class NavbarComponent implements OnInit {
     return this.usuario?.rol === 'ROLE_ADMIN';
   }
 
+  esUser():boolean {
+    return this.usuario?.rol === 'ROLE_USER';
+  }
+
   logout() {
     this.authService.logout();
   }

@@ -38,6 +38,21 @@ export const appRoutes: Routes = [
     path: 'admin/usuarios',
     component: AdminUsuariosComponent
   },
+{
+  path: 'credito',
+  loadComponent: () => import('./pages/solicitar-credito/solicitar-credito.component').then(m => m.SolicitarCreditoComponent)
+},
+
+{
+  path: 'creditos',
+  loadComponent: () => import('./pages/creditos/mis-creditos/mis-creditos.component').then(m => m.MisCreditosComponent)
+},
+{
+  path: 'admin/creditos',
+  loadComponent: () => import('./pages/admin-creditos/admin-creditos.component').then(m => m.AdminCreditosComponent),
+  //canActivate: [authGuard], // si estás usando guardias de autenticación
+  canActivate: [adminGuard]
+},
 
   { path: '**', redirectTo: 'home' }
 ];

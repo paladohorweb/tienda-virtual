@@ -22,8 +22,13 @@
           </select>
         </td>
         <td>
-          <button (click)="actualizar(usuario)" class="btn btn-sm btn-primary">💾 Guardar</button>
+          <button (click)="actualizar(usuario)" class="btn btn-sm btn-primary me-2">💾 Guardar</button>
+
+           <button class="btn btn-sm btn-danger" (click)="eliminarUsuario(usuario.id)">
+    🗑️ Eliminar
+  </button>
         </td>
+
       </tr>
     </tbody>
   </table>

@@ -1,0 +1,61 @@
+<div class="container mt-4">
+  <h2 class="mb-4">📋 Solicitudes de Crédito</h2>
+
+  <div *ngIf="mensaje" class="alert alert-info">{{ mensaje }}</div>
+  <div *ngIf="error" class="alert alert-danger">{{ error }}</div>
+  <div *ngIf="cargando" class="text-center">Cargando...</div>
+
+  <table class="table table-striped table-bordered" *ngIf="creditos.length > 0">
+    <thead class="table-dark">
+      <tr>
+        <th>ID</th>
+        <th>Usuario</th>
+        <th>Producto</th>
+        <th>Monto</th>
+        <th>Monto Final</th>
+        <th>Cuotas</th>
+        <th>Estado</th>
+        <th>Fecha Solicitud</th>
+        <th>Acciones</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let credito of creditos">
+        <td>{{ credito.id }}</td>
+        <td>{{ credito.usuario?.nombre || credito.usuario?.email }}</td>
+        <td>{{ credito.producto.nombre}}</td>
+        <td>${{ credito.montoSolicitado }}</td>
+        <td>{{credito.montoFinal}}</td>
+        <td>{{ credito.cuotas }}</td>
+        <td>
+          <span class="badge"
+                [ngClass]="{
+                  'bg-warning text-dark': credito.estado === 'PENDIENTE',
+                  'bg-success': credito.estado === 'APROBADO',
+                  'bg-danger': credito.estado === 'RECHAZADO'
+                }">
+            {{ credito.estado }}
+          </span>
+        </td>
+        <td>{{ credito.fechaSolicitud | date:'short' }}</td>
+        <td>
+          <button class="btn btn-success btn-sm me-2"
+                  (click)="aprobar(credito.id!)"
+                  [disabled]="credito.estado !== 'PENDIENTE'">
+            ✅ Aprobar
+          </button>
+          <button class="btn btn-danger btn-sm"
+                  (click)="rechazar(credito.id!)"
+                  [disabled]="credito.estado !== 'PENDIENTE'">
+            ❌ Rechazar
+          </button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div *ngIf="!cargando && creditos.length === 0" class="alert alert-secondary text-center">
+    No hay solicitudes de crédito registradas.
+  </div>
+</div>
+

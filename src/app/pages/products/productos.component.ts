@@ -6,19 +6,30 @@ import { ProductoService } from '../../services/producto.service';
 import { FormsModule } from '@angular/forms';
 import { CarritoService } from '../../services/carrito.service';
 import { AuthService } from '../../services/auth.service';
+import { SolicitarCreditoComponent } from '../solicitar-credito/solicitar-credito.component';
+import { ModalSolicitarCreditoComponent } from '../../components/modal-solicitar-credito/modal-solicitar-credito.component';
+import * as bootstrap from 'bootstrap';
 
 @Component({
   selector: 'app-productos',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [
+    CommonModule,
+    FormsModule,
+    SolicitarCreditoComponent,
+    ModalSolicitarCreditoComponent,
+  ],
   templateUrl: './productos.component.html',
-  styleUrls: ['./productos.component.css'] // Asegúrate de tenerlo creado
+  styleUrls: ['./productos.component.css'], // Asegúrate de tenerlo creado
 })
 export class ProductosComponent implements OnInit {
   productos: Producto[] = [];
   productosFiltrados: Producto[] = [];
   filtro: string = '';
   totalArticulos: number = 0; // Contador del carrito
+  isAuthenticated = false;
+  productoSeleccionadoId!: number;
+  montoSolicitado!: number;
 
   constructor(
     private productoService: ProductoService,
@@ -29,7 +40,8 @@ export class ProductosComponent implements OnInit {
 
   ngOnInit(): void {
     this.obtenerProductos();
-     this.obtenerCantidadArticulos();
+    this.obtenerCantidadArticulos();
+    this.isAuthenticated = this.authService.isAuthenticated();
   }
 
   obtenerProductos() {
@@ -61,24 +73,25 @@ export class ProductosComponent implements OnInit {
       error: (err) => {
         console.error('❌ Error al agregar al carrito', err);
         alert('❌ No se pudo agregar el producto al carrito');
-      }
+      },
     });
   }
 
-    obtenerCantidadArticulos() {
+  obtenerCantidadArticulos() {
     this.carritoService.obtenerCantidadTotal().subscribe({
       next: (cantidad: number) => {
         this.totalArticulos = cantidad;
       },
       error: () => {
         this.totalArticulos = 0;
-      }
+      },
     });
   }
+
+abrirModal(productId: number, precio: number) {
+  this.productoSeleccionadoId = productId;
+  this.montoSolicitado = precio; // ✅ pasar el precio como monto sugerido
+  const modal = new bootstrap.Modal(document.getElementById('modalCredito')!);
+  modal.show();
 }
-
-
-
-
-
-
+}

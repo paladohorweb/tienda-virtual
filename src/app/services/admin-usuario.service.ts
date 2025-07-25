@@ -32,4 +32,8 @@ export class AdminUsuarioService {
   actualizar(usuario: UsuarioAdmin): Observable<UsuarioAdmin> {
     return this.http.put<UsuarioAdmin>(`${this.url}/${usuario.id}`, usuario, this.headers());
   }
+
+  eliminar(id: number): Observable<void> {
+  return this.http.delete<void>(`${this.url}/${id}`, this.headers());
+}
 }

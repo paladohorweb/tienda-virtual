@@ -1,0 +1,18 @@
+<div class="modal fade" id="modalCredito" tabindex="-1" aria-labelledby="modalCreditoLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-lg">
+    <div class="modal-content rounded-4 shadow">
+      <div class="modal-header bg-primary text-white">
+        <h5 class="modal-title" id="modalCreditoLabel">💳 Solicitar Crédito</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+      </div>
+      <div class="modal-body">
+        <app-solicitar-credito
+          [productoId]="productoId"
+          [precioProducto]="precioProducto">
+        </app-solicitar-credito>
+      </div>
+    </div>
+  </div>
+</div>
+
+

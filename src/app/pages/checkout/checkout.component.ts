@@ -7,6 +7,7 @@ import { PagoService } from '../../services/pago.service';
 import { Usuario } from '../../models/usuario.model';
 import { AuthService } from '../../services/auth.service';
 import { PedidoService } from '../../services/pedido.service';
+import { CreditoService } from '../../services/credito.service';
 
 @Component({
   selector: 'app-checkout',
@@ -21,7 +22,8 @@ export class CheckoutComponent implements OnInit {
     { value: 'mastercard_credito', label: '💳 Mastercard Crédito' },
     { value: 'mastercard_debito', label: '💳 Mastercard Débito' },
     { value: 'paypal', label: '🅿️ PayPal' },
-    { value: 'transferencia_bancaria', label: '🏦 Transferencia Bancaria' }
+    { value: 'transferencia_bancaria', label: '🏦 Transferencia Bancaria' },
+    { value: 'credito', label: '💰 Crédito' } // <- nueva opción
   ];
 
   metodoPago: string = this.metodosPago[0].value;
@@ -34,7 +36,8 @@ export class CheckoutComponent implements OnInit {
     private authService: AuthService,
     private carritoService: CarritoService,
     private pagoService: PagoService,
-    private router: Router
+    private router: Router,
+      private creditoService: CreditoService, // nuevo
   ) {}
 
   ngOnInit(): void {
@@ -79,7 +82,13 @@ export class CheckoutComponent implements OnInit {
     this.pedidoService.crearPedido(detalles).subscribe({
       next: (res) => {
         const pedidoId = res.data.id;
-        this.procesarPago(pedidoId);
+
+        if(this.metodoPago === 'credito'){
+           this.solicitarCreditoDesdeCheckout(pedidoId);
+        }else {
+          this.procesarPago(pedidoId);
+        }
+
 
       },
       error: (err) => {
@@ -125,6 +134,39 @@ private procesarPago(pedidoId: number): void {
       console.error('❌ Error al procesar pago:', err);
       this.cargando = false;
       this.error = err.error?.message || 'Ocurrió un error al procesar el pago';
+    }
+  });
+}
+
+   private solicitarCreditoDesdeCheckout(pedidoId: number): void {
+  if (!this.carrito.items.length) {
+    this.error = 'No hay productos en el carrito para solicitar crédito.';
+    return;
+  }
+
+  const productoId = this.carrito.items[0].producto.id; // por ahora, solo un producto
+  const montoSolicitado = this.carrito.total;
+  const cuotas = 3;
+
+  const userId = this.authService.getUsuarioId();
+  if (userId === null) {
+    this.error = 'Usuario no autenticado';
+    return;
+  }
+
+  const dto = { productoId, montoSolicitado, cuotas };
+
+  this.creditoService.solicitarCredito(userId, dto).subscribe({
+    next: () => {
+      this.carritoService.vaciarCarrito().subscribe(() => {
+        this.cargando = false;
+        this.router.navigate(['/confirmacion', pedidoId]);
+      });
+    },
+    error: (err) => {
+      console.error('❌ Error al solicitar crédito desde checkout:', err);
+      this.cargando = false;
+      this.error = 'No se pudo procesar la solicitud de crédito.';
     }
   });
 }

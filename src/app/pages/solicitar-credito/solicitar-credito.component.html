@@ -1,0 +1,24 @@
+<div *ngIf="productoId" class="card mt-3">
+  <div class="card-body">
+    <h5 class="card-title">💰 Solicita un crédito</h5>
+
+    <form (ngSubmit)="solicitar()">
+      <div class="mb-3">
+        <label>Monto solicitado</label>
+        <input type="number" class="form-control" [(ngModel)]="montoSolicitado" name="montoSolicitado" required min="1">
+      </div>
+
+      <div class="mb-3">
+        <label>Cuotas</label>
+        <select class="form-control" [(ngModel)]="cuotas" name="cuotas">
+          <option *ngFor="let c of [3, 6, 12]" [value]="c">{{ c }} cuotas</option>
+        </select>
+      </div>
+
+      <button type="submit" class="btn btn-primary">Enviar solicitud</button>
+
+      <div *ngIf="mensaje" class="mt-3 alert alert-info">{{ mensaje }}</div>
+    </form>
+  </div>
+</div>
+

@@ -1,0 +1,46 @@
+<div class="container mt-4">
+  <h3>📋 Mis Créditos Solicitados</h3>
+
+  <div *ngIf="cargando" class="alert alert-info">Cargando...</div>
+  <div *ngIf="error" class="alert alert-danger">{{ error }}</div>
+
+  <div *ngIf="creditos.length === 0 && !cargando" class="alert alert-warning">
+    No tienes solicitudes de crédito.
+  </div>
+
+  <div *ngIf="creditos.length > 0">
+    <table class="table table-bordered table-striped mt-3">
+      <thead class="table-dark">
+        <tr>
+          <th>Producto</th>
+          <th>Monto</th>
+          <th>Cuotas</th>
+          <th>Interés</th>
+          <th>Monto Final</th>
+          <th>Estado</th>
+          <th>Fecha</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let c of creditos">
+          <td>{{ c.producto.nombre }}</td>
+          <td>${{ c.montoSolicitado }}</td>
+          <td>{{ c.cuotas }}</td>
+          <td>{{ c.interes * 100 }}%</td>
+          <td>${{ c.montoFinal }}</td>
+          <td>
+            <span [ngClass]="{
+              'badge bg-warning': c.estado === 'PENDIENTE',
+              'badge bg-success': c.estado === 'APROBADO',
+              'badge bg-danger': c.estado === 'RECHAZADO'
+            }">
+              {{ c.estado }}
+            </span>
+          </td>
+          <td>{{ c.fechaSolicitud | date: 'short' }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+

@@ -7,6 +7,8 @@ import { CheckoutComponent } from './pages/checkout/checkout.component';
 import { LoginComponent } from './pages/auth/login/login.component';
 import { RegisterComponent } from './pages/auth/register/register.component';
 import { PedidoComponent } from './pages/pedidos/pedidos.component';
+import { provideHttpClient, withInterceptors } from '@angular/common/http';
+import { authInterceptor } from './interceptors/auth.interceptor';
 
 
 const routes: Routes = [
@@ -16,11 +18,13 @@ const routes: Routes = [
   { path: 'pedidos', component: PedidoComponent},
   { path: 'login', component: LoginComponent },
   { path: 'register', component: RegisterComponent },
-  
+
   { path: '**', redirectTo: '' }
 ];
 
 export const appConfig: ApplicationConfig = {
-  providers: [provideRouter(routes)]
+  providers: [provideRouter(routes),
+     provideHttpClient(withInterceptors([authInterceptor])) // ✅ REGISTRO DEL INTERCEPTOR
+  ]
 };
 

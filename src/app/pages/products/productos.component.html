@@ -24,6 +24,15 @@
           >
             🛒 Agregar al Carrito
           </button>
+
+              <!-- 👇 Mostrar componente de crédito solo si está autenticado -->
+ <button
+  *ngIf="isAuthenticated"
+  class="btn btn-outline-success w-100 fw-semibold mt-2"
+  (click)="abrirModal(product.id, product.precio)">
+  💳 Solicitar Crédito
+</button>
+
         </div>
       </div>
     </div>
@@ -39,3 +48,9 @@
   <i class="bi bi-cart3 fs-4 text-white"></i>
   <span class="cart-count badge bg-danger ms-1">{{ totalArticulos }}</span>
 </a>
+
+<!-- Modal para solicitar crédito -->
+<app-modal-solicitar-credito
+  [productoId]="productoSeleccionadoId"
+  [precioProducto]="montoSolicitado">
+</app-modal-solicitar-credito>

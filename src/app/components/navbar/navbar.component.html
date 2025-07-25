@@ -9,12 +9,26 @@
         <li class="nav-item">
           <a class="nav-link" routerLink="/" (click)="closeNavbar()">Inicio</a>
         </li>
+        <li class="nav-item" *ngIf="isAuthenticated &&  esUser()">
+            <a class="nav-link" routerLink="/creditos" (click)="closeNavbar()"> Mis Créditos</a>
+        </li>
+
+
         <li class="nav-item" *ngIf="isAuthenticated && esAdmin()">
           <a
             class="nav-link"
             routerLink="/admin/productos"
             (click)="closeNavbar()"
-            >Panel Admin</a
+            >Panel Admin  Productos</a
+          >
+        </li>
+
+         <li class="nav-item" *ngIf="isAuthenticated && esAdmin()">
+          <a
+            class="nav-link"
+            routerLink="/admin/creditos"
+            (click)="closeNavbar()"
+            >Panel Admin Creditos</a
           >
         </li>
         <li class="nav-item" *ngIf="isAuthenticated && esAdmin()">

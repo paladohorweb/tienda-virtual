@@ -27,5 +27,16 @@ export class AdminUsuariosComponent implements OnInit {
       error: () => alert('❌ Error al actualizar')
     });
   }
+
+  eliminarUsuario(id: number): void {
+  if (confirm('¿Estás seguro de que deseas eliminar este usuario?')) {
+    this.usuarioService.eliminar(id).subscribe({
+      next: () => {
+        this.usuarios = this.usuarios.filter(u => u.id !== id);
+      },
+      error: (err) => console.error('❌ Error eliminando usuario:', err)
+    });
+  }
+}
 }
 
