@@ -11,4 +11,5 @@ import { SolicitarCreditoComponent } from '../../pages/solicitar-credito/solicit
 export class ModalSolicitarCreditoComponent {
   @Input() productoId!: number;
  @Input() precioProducto!: number;
+ 
 }

@@ -6,7 +6,6 @@ import { ProductoService } from '../../services/producto.service';
 import { FormsModule } from '@angular/forms';
 import { CarritoService } from '../../services/carrito.service';
 import { AuthService } from '../../services/auth.service';
-import { SolicitarCreditoComponent } from '../solicitar-credito/solicitar-credito.component';
 import { ModalSolicitarCreditoComponent } from '../../components/modal-solicitar-credito/modal-solicitar-credito.component';
 import * as bootstrap from 'bootstrap';
 
@@ -16,9 +15,8 @@ import * as bootstrap from 'bootstrap';
   imports: [
     CommonModule,
     FormsModule,
-    SolicitarCreditoComponent,
-    ModalSolicitarCreditoComponent,
-  ],
+    ModalSolicitarCreditoComponent
+],
   templateUrl: './productos.component.html',
   styleUrls: ['./productos.component.css'], // Asegúrate de tenerlo creado
 })

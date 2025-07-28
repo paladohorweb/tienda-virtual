@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { CreditoService } from '../../services/credito.service';
@@ -11,7 +11,7 @@ import * as bootstrap from 'bootstrap';
   imports: [CommonModule, FormsModule],
   templateUrl: './solicitar-credito.component.html'
 })
-export class SolicitarCreditoComponent implements OnInit {
+export class SolicitarCreditoComponent implements OnInit,  OnChanges {
   @Input() productoId!: number;
   @Input() precioProducto!: number;
 
@@ -25,7 +25,11 @@ export class SolicitarCreditoComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    if (!this.montoSolicitado && this.precioProducto) {
+
+  }
+
+    ngOnChanges(changes: SimpleChanges) {
+    if (changes['precioProducto'] && this.precioProducto) {
       this.montoSolicitado = this.precioProducto;
     }
   }
