@@ -63,5 +63,22 @@ actualizarProducto(id: number, producto: Producto): Observable<Producto> {
 eliminarProducto(id: number): Observable<void> {
   return this.http.delete<void>(`${this.apiUrl}/${id}`);
 }
+
+getMasVendidos(): Observable<Producto[]> {
+  return this.http.get<Producto[]>(`${this.apiUrl}/mas-vendidos`).pipe(
+    map((productos: any[]) =>
+      productos.map((p: any) => ({
+        id: p.id,
+        nombre: p.nombre,
+        descripcion: p.descripcion,
+        precio: p.precio,
+        stock: p.stock ?? 0,
+        imagenUrl: p.imagenUrl
+          ? `assets/img/${p.imagenUrl}`
+          : 'assets/img/default.jpg' // ✅ Ruta local de imagen si no hay
+      }))
+    )
+  );
+}
 }
 

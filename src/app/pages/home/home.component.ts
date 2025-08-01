@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { CommonModule, CurrencyPipe } from '@angular/common';
 import { Producto } from '../../models/producto.model';
 import { ProductoService } from '../../services/producto.service';
@@ -14,14 +14,74 @@ import { RouterModule } from '@angular/router';
 export class HomeComponent implements OnInit {
   featuredProducts: Producto[] = [];
 
+  @ViewChild('carousel', { static: false }) carousel!: ElementRef;
+masVendidos: Producto[] = [];
+  duplicatedProducts: Producto[] = [];
+scrollInterval: any;
+
   constructor(private productoService: ProductoService) {}
 
+
+  scrollLeft(contenedor: HTMLElement) {
+  contenedor.scrollBy({ left: -300, behavior: 'smooth' });
+}
+
+scrollRight(contenedor: HTMLElement) {
+  contenedor.scrollBy({ left: 300, behavior: 'smooth' });
+}
+
   ngOnInit(): void {
+     this.productoService.getMasVendidos().subscribe((data) => {
+    //this.masVendidos = data;
+    console.log("Más vendidos:", data);
+    this.autoScroll();
+      this.masVendidos = [...data, ...data]; // duplicación para efecto infinito
+    this.startAutoScroll();
+  });
+
     this.productoService.obtenerProductosDestacados().subscribe({
       next: (productos) => (this.featuredProducts = productos),
       error: (err) => console.error('❌ Error cargando destacados:', err),
     });
   }
+    scroll(direction: 'left' | 'right') {
+  const el = this.carousel.nativeElement;
+  const scrollAmount = 220;
+  direction === 'left' ? el.scrollBy({ left: -scrollAmount }) : el.scrollBy({ left: scrollAmount });
+}
+
+autoScroll() {
+  setInterval(() => {
+    this.scroll('right');
+  }, 3000); // cada 3 segundos
+}
+
+
+ startAutoScroll() {
+  this.scrollInterval = setInterval(() => {
+    const el = this.carousel.nativeElement;
+    const maxScroll = el.scrollWidth / 2;
+
+    if (el.scrollLeft >= maxScroll) {
+      el.scrollLeft = 0; // reinicio para efecto infinito
+    } else {
+      el.scrollBy({ left: 1 });
+    }
+  }, 20); // Velocidad de scroll
+}
+
+pauseScroll() {
+  clearInterval(this.scrollInterval);
+}
+
+resumeScroll() {
+  this.startAutoScroll();
+}
+
+
+
+
+
 
   clothingProducts = [
     {
