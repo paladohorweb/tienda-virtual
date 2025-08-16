@@ -29,7 +29,7 @@
  <button
   *ngIf="isAuthenticated"
   class="btn btn-outline-success w-100 fw-semibold mt-2"
-  (click)="abrirModal(product.id, product.precio)">
+  (click)="abrirModal(product.id, product.precio)"  [disabled]="product.stock === 0">
   💳 Solicitar Crédito
 </button>
 
@@ -41,11 +41,11 @@
 
 <!-- Botón flotante del carrito -->
 <a
-  routerLink="/cart"
+ routerLink="/cart"
   class="cart-floating-button position-fixed d-flex align-items-center justify-content-center"
   style="z-index: 1050"
 >
-  <i class="bi bi-cart3 fs-4 text-white"></i>
+  <i class="bi bi-cart3 fs-4 text-white" ></i>
   <span class="cart-count badge bg-danger ms-1">{{ totalArticulos }}</span>
 </a>
 

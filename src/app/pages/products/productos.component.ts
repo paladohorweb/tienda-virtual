@@ -8,15 +8,12 @@ import { CarritoService } from '../../services/carrito.service';
 import { AuthService } from '../../services/auth.service';
 import { ModalSolicitarCreditoComponent } from '../../components/modal-solicitar-credito/modal-solicitar-credito.component';
 import * as bootstrap from 'bootstrap';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-productos',
   standalone: true,
-  imports: [
-    CommonModule,
-    FormsModule,
-    ModalSolicitarCreditoComponent
-],
+  imports: [CommonModule, FormsModule, ModalSolicitarCreditoComponent],
   templateUrl: './productos.component.html',
   styleUrls: ['./productos.component.css'], // Asegúrate de tenerlo creado
 })
@@ -57,14 +54,24 @@ export class ProductosComponent implements OnInit {
 
   agregarAlCarrito(producto: Producto) {
     if (!this.authService.isAuthenticated()) {
-      alert('❌ Debes iniciar sesión para agregar productos al carrito');
+      Swal.fire({
+        title: '❌ Debes iniciar sesión para agregar productos al carrito',
+        icon: 'error',
+        draggable: true,
+      });
+      // alert('❌ Debes iniciar sesión para agregar productos al carrito');
       this.router.navigate(['/login']);
       return;
     }
 
     this.carritoService.agregarProducto(producto.id, 1).subscribe({
       next: () => {
-        alert('✅ Producto agregado al carrito');
+        Swal.fire({
+          title: 'Producto Agregado al Carrito!',
+          text: 'Continua!',
+          icon: 'success',
+        });
+        // alert('✅ Producto agregado al carrito');
         this.obtenerCantidadArticulos(); // actualizar contador
         //this.router.navigate(['/carrito']);
       },
@@ -86,10 +93,10 @@ export class ProductosComponent implements OnInit {
     });
   }
 
-abrirModal(productId: number, precio: number) {
-  this.productoSeleccionadoId = productId;
-  this.montoSolicitado = precio; // ✅ pasar el precio como monto sugerido
-  const modal = new bootstrap.Modal(document.getElementById('modalCredito')!);
-  modal.show();
-}
+  abrirModal(productId: number, precio: number) {
+    this.productoSeleccionadoId = productId;
+    this.montoSolicitado = precio; // ✅ pasar el precio como monto sugerido
+    const modal = new bootstrap.Modal(document.getElementById('modalCredito')!);
+    modal.show();
+  }
 }
