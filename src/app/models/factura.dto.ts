@@ -5,6 +5,7 @@ export interface FacturaDto {
   numero: string;
   fechaEmision: string; // ISO String desde el backend
   cliente: string; // nombre del usuario
+  pedidoId:number;
   total: number;
   iva: number;
   metodoPago: string;

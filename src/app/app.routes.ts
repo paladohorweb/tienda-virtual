@@ -53,6 +53,12 @@ export const appRoutes: Routes = [
   //canActivate: [authGuard], // si estás usando guardias de autenticación
   canActivate: [adminGuard]
 },
+// en tu appRoutes
+{
+  path: 'admin/inventario',
+  canActivate: [adminGuard],
+  loadComponent: () => import('./pages/admin-inventario/admin-inventario.component').then(m => m.AdminInventarioComponent)
+},
 
   { path: '**', redirectTo: 'home' }
 ];

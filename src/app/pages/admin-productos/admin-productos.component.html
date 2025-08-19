@@ -14,10 +14,10 @@
         <input [(ngModel)]="modelo.descripcion" class="form-control" placeholder="Descripción" />
       </div>
       <div class="col-6 col-md-2">
-        <input type="number" [(ngModel)]="modelo.precio" class="form-control" placeholder="Precio" />
+        <input type="number" [(ngModel)]="modelo.precio" class="form-control" placeholder="Precio" min="0" />
       </div>
       <div class="col-6 col-md-2">
-        <input type="number" [(ngModel)]="modelo.stock" class="form-control" placeholder="Stock" />
+        <input type="number" [(ngModel)]="modelo.stock" class="form-control" placeholder="Stock" min="0" />
       </div>
       <div class="col-6 col-md-2">
         <input [(ngModel)]="modelo.destacado" class="form-control" placeholder="Destacado" />

@@ -13,6 +13,11 @@
             <a class="nav-link" routerLink="/creditos" (click)="closeNavbar()"> Mis Créditos</a>
         </li>
 
+           <li class="nav-item" *ngIf="isAuthenticated &&  esAdmin()">
+            <a class="nav-link" routerLink="/admin/inventario" (click)="closeNavbar()">Inventarios</a>
+        </li>
+
+
 
         <li class="nav-item" *ngIf="isAuthenticated && esAdmin()">
           <a

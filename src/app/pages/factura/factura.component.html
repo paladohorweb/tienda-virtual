@@ -17,8 +17,8 @@
     <div class="card-body">
       <p><strong>Cliente:</strong> {{ factura.cliente }}</p>
       <p><strong>Fecha:</strong> {{ factura.fechaEmision | date:'fullDate' }} {{ factura.fechaEmision | date:'shortTime' }}</p>
-      <p><strong>Método de Pago:</strong> {{ factura.metodoPago }}</p>
-
+      <p><strong>Pedido:</strong>{{factura.id}}</p>
+      <p><strong>Método de Pago:</strong> {{ factura.metodoPago}}</p>
       <table class="table table-striped table-bordered mt-3">
         <thead class="table-dark">
           <tr>
@@ -35,6 +35,7 @@
             <td>{{ item.precioUnitario | currency }}</td>
             <td>{{ item.subtotal | currency }}</td>
           </tr>
+
         </tbody>
       </table>
 

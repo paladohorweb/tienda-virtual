@@ -1,0 +1,5 @@
+/* src/app/pages/admin-inventario/admin-inventario.component.css */
+.container { max-width: 1100px; }
+.card { border-radius: 10px; }
+.table td, .table th { vertical-align: middle; }
+a { cursor: pointer; }

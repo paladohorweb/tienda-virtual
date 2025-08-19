@@ -1,0 +1,84 @@
+<!-- src/app/pages/admin-inventario/admin-inventario.component.html -->
+<div class="container mt-4">
+  <div class="d-flex justify-content-between align-items-center mb-3">
+    <h3>Inventario — Gestión</h3>
+    <div>
+      <button class="btn btn-outline-warning me-2" (click)="marcarBajoStock()">Ver bajo stock</button>
+      <a routerLink="/admin/productos" class="btn btn-secondary">Panel Productos</a>
+    </div>
+  </div>
+
+  <div class="card mb-4 shadow-sm p-3">
+    <h5>Registrar Movimiento</h5>
+    <form [formGroup]="form" (ngSubmit)="submit()" class="row g-2 align-items-end">
+      <div class="col-12 col-md-4">
+        <label class="form-label">Producto</label>
+        <select class="form-select" formControlName="productoId">
+          <option [ngValue]="null">-- Selecciona producto --</option>
+          <option *ngFor="let p of productos" [value]="p.id">{{p.nombre}} (stock: {{p.stock}})</option>
+        </select>
+      </div>
+
+      <div class="col-6 col-md-2">
+        <label class="form-label">Cantidad</label>
+        <input type="number" class="form-control" formControlName="cantidad" min="1">
+      </div>
+
+      <div class="col-6 col-md-2">
+        <label class="form-label">Tipo</label>
+        <select class="form-select" formControlName="tipo">
+          <option *ngFor="let t of tipos" [value]="t">{{t}}</option>
+        </select>
+      </div>
+
+      <div class="col-12 col-md-3">
+        <label class="form-label">Motivo (opcional)</label>
+        <input type="text" class="form-control" formControlName="motivo" placeholder="Ej: ajuste, devolución...">
+      </div>
+
+      <div class="col-12 col-md-1 text-end">
+        <button class="btn btn-primary w-100" [disabled]="form.invalid">Registrar</button>
+      </div>
+    </form>
+    <div *ngIf="error" class="mt-2 alert alert-danger">{{error}}</div>
+  </div>
+
+  <div>
+    <h5 class="mb-3">Histórico de movimientos</h5>
+
+    <div *ngIf="loading" class="text-center py-4">
+      <div class="spinner-border" role="status"><span class="visually-hidden">Cargando...</span></div>
+    </div>
+
+    <table class="table table-striped" *ngIf="!loading">
+      <thead>
+        <tr>
+          <th>Fecha</th>
+          <th>Producto</th>
+          <th>Tipo</th>
+          <th>Cantidad</th>
+          <th>Usuario</th>
+          <th>Stock actual</th>
+          <th>Motivo</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let m of movimientos">
+          <td>{{ m.fecha | date:'medium' }}</td>
+          <td><a href="#" (click)="verPorProducto(m.id); $event.preventDefault()">{{ m.productoNombre }}</a></td>
+          <td>
+            <span class="badge" [ngClass]="{
+              'bg-success': m.tipo === 'ENTRADA',
+              'bg-danger': m.tipo === 'SALIDA',
+              'bg-secondary': m.tipo === 'AJUSTE'
+            }">{{ m.tipo }}</span>
+          </td>
+          <td>{{ m.cantidad }}</td>
+          <td>{{ m.usuario || '-' }}</td>
+          <td>{{ m.stockActual ?? '-' }}</td>
+          <td>{{ m.motivo || '-' }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
