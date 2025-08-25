@@ -26,6 +26,11 @@ export const appRoutes: Routes = [
     path: 'perfil',
     canActivate: [authGuard],
     loadComponent: () => import('./pages/perfil/perfil.component').then(m => m.PerfilComponent)
+  }
+    ,{
+    path: 'ventas',
+    canActivate: [authGuard],
+    loadComponent: () => import('./pages/ventas/ventas-usuario.component').then(m => m.VentasUsuarioComponent)
   },
 
   // ✅ Ruta del panel de administrador protegida con adminGuard
@@ -33,6 +38,11 @@ export const appRoutes: Routes = [
     path: 'admin/productos',
     canActivate: [adminGuard],
     loadComponent: () => import('./pages/admin-productos/admin-productos.component').then(m => m.AdminProductosComponent)
+  },
+    {
+    path: 'admin/ventas',
+    canActivate: [adminGuard],
+    loadComponent: () => import('./pages/ventas-admin/ventas-admin.component').then(m => m.VentasAdminComponent)
   },
     {
     path: 'admin/usuarios',

@@ -1,0 +1,36 @@
+<div class="container mt-4">
+  <h3 class="mb-4">Ventas Registradas (Administrador)</h3>
+
+  <div *ngIf="ventas.length === 0" class="alert alert-info">
+    No hay ventas registradas.
+  </div>
+
+  <table *ngIf="ventas.length > 0" class="table table-striped table-bordered">
+    <thead class="table-dark">
+      <tr>
+        <th># Venta</th>
+        <th>Fecha</th>
+        <th>Total</th>
+        <th>Usuario</th>
+        <th>Email</th>
+        <th>Estado Pedido</th>
+        <th>Método Pago</th>
+        <th>Estado Pago</th>
+        <th>Factura</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let venta of ventas">
+        <td>{{ venta.id }}</td>
+        <td>{{ venta.fechaVenta | date: 'short' }}</td>
+        <td>{{ venta.total | currency:'COP' }}</td>
+        <td>{{ venta.usuario?.nombre || 'N/A' }}</td>
+        <td>{{ venta.usuario?.email || 'N/A' }}</td>
+        <td>{{ venta.pedido?.estado || 'N/A' }}</td>
+        <td>{{ venta.pago?.metodo || 'N/A' }}</td>
+        <td>{{ venta.pago?.estado || 'N/A' }}</td>
+        <td>{{ venta.factura?.numero || 'N/A' }}</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
