@@ -108,9 +108,9 @@ export class PedidoService {
     return new Error(error.message || 'Error desconocido en el servidor');
   }
 
-  generarFactura(pedidoId: number): Observable<FacturaDto> {
-  const url = `${environment.apiUrl}/api/facturas/pedido/${pedidoId}`;
-  return this.http.get<FacturaDto>(url, {
+generarFactura(pedidoId: number): Observable<FacturaDto> {
+  const url = `${environment.apiUrl}/api/facturas/generar/${pedidoId}`;
+  return this.http.post<FacturaDto>(url, {}, {
     headers: this.getAuthHeaders()
   });
 }
@@ -141,6 +141,13 @@ pagarPedido(pedidoId: number): Observable<any> {
   );
 }
 
+/** 🔹 Obtener factura por ID */
+obtenerFactura(facturaId: number): Observable<FacturaDto> {
+  const url = `${environment.apiUrl}/api/facturas/${facturaId}`;
+  return this.http.get<FacturaDto>(url, {
+    headers: this.getAuthHeaders()
+  });
+}
 
 
 

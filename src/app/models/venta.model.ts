@@ -1,6 +1,6 @@
 export interface Venta {
   id: number;
-  fechaVenta: string;
+  fecha: string;
   total: number;
   usuario: {
     id: number;
@@ -17,6 +17,7 @@ export interface Venta {
   };
   pago: {
     id: number;
+    fechaPago: string;
     metodo: string;
     estado: string;
   };

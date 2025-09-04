@@ -1,32 +1,50 @@
-<div class="container mt-4">
-  <h3 class="mb-4">Mis Compras</h3>
+<div class="container mt-5">
+  <h2 class="mb-4 text-center">Mis Compras</h2>
 
-  <div *ngIf="ventas.length === 0" class="alert alert-info">
-    No tienes compras registradas.
+  <div *ngIf="ventas && ventas.length > 0; else sinVentas">
+    <div class="table-responsive">
+      <table class="table table-bordered table-hover text-center align-middle">
+        <thead class="table-dark">
+          <tr>
+            <th>#</th>
+            <th>Fecha</th>
+            <th>Total</th>
+            <th>Factura</th>
+            <th>Pedido</th>
+            <th>Pago</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let venta of ventas; let i = index">
+            <td>{{ venta.id}}</td>
+            <td>{{ venta.pago.fechaPago| date: 'short' }}</td>
+            <td>${{ venta.total | number: '1.2-2' }}</td>
+            <td>{{ venta.factura.id }}</td>
+            <td>
+              <span class="badge bg-info text-dark">{{ venta.pedido.estado }}</span>
+            </td>
+            <td>
+              <span class="badge"
+                    [ngClass]="{
+                      'bg-success': venta.pago.estado === 'Pagado',
+                      'bg-warning': venta.pago.estado === 'Pendiente',
+                      'bg-danger': venta.pago.estado === 'Rechazado'
+                    }">
+                {{ venta.pago.estado }}
+              </span>
+              <br>
+              <small class="text-muted">{{ venta.pago.metodo }}</small>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
   </div>
 
-  <table *ngIf="ventas.length > 0" class="table table-bordered table-hover">
-    <thead class="table-dark">
-      <tr>
-        <th># Venta</th>
-        <th>Fecha</th>
-        <th>Total</th>
-        <th>Estado del Pedido</th>
-        <th>Método de Pago</th>
-        <th>Estado del Pago</th>
-        <th>Factura</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr *ngFor="let venta of ventas">
-        <td>{{ venta.id }}</td>
-        <td>{{ venta.fechaVenta | date: 'short' }}</td>
-        <td>{{ venta.total | currency:'COP' }}</td>
-        <td>{{ venta.pedido?.estado || 'N/A' }}</td>
-        <td>{{ venta.pago?.metodo || 'N/A' }}</td>
-        <td>{{ venta.pago?.estado || 'N/A' }}</td>
-        <td>{{ venta.factura?.numero || 'N/A' }}</td>
-      </tr>
-    </tbody>
-  </table>
+  <ng-template #sinVentas>
+    <div class="alert alert-info text-center">
+      No se encontraron ventas registradas.
+    </div>
+  </ng-template>
 </div>
+

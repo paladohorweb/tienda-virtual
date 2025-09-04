@@ -3,6 +3,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { environment } from '../../environments/environment';
 import { Observable } from 'rxjs';
 import { FacturaDto } from '../models/factura.dto';
+import { AuthService } from './auth.service';
 
 @Injectable({
   providedIn: 'root'
@@ -11,14 +12,14 @@ export class FacturaService {
 
   private apiUrl = `${environment.apiUrl}/api/facturas`;
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient, private authService: AuthService) {}
 
-  private getAuthHeaders(): HttpHeaders {
-    const token = localStorage.getItem('authToken') || sessionStorage.getItem('authToken');
-    return new HttpHeaders({
-      'Authorization': `Bearer ${token}`
-    });
-  }
+private getAuthHeaders(): HttpHeaders {
+  const token = this.authService.getToken();
+  return new HttpHeaders({
+    'Authorization': `Bearer ${token}`
+  });
+}
 
     generarFactura(pedidoId: number): Observable<FacturaDto> {
   const url = `${this.apiUrl}/generar/${pedidoId}`;

@@ -45,15 +45,7 @@ export class FacturaComponent implements OnInit {
     }
   }
 
-  descargarFactura() {
-    const contenido = document.getElementById('factura'); // Asegúrate de que la factura esté dentro de un div con id="factura"
 
-    if (contenido) {
-      import('html2pdf.js').then((html2pdf) => {
-        html2pdf.default().from(contenido).save('Factura.pdf');
-      });
-    }
-  }
 
   descargarFacturaConRetraso() {
     const contenido = document.getElementById('factura');
@@ -78,11 +70,11 @@ export class FacturaComponent implements OnInit {
 
   cerrarFactura() {
     // Por ejemplo, redirigir al home o a los pedidos
-    this.router.navigate(['/']);
+    this.router.navigate(['/pedidos']);
   }
 
-  descargarPDF(): void {
-    const contenido = document.getElementById('facturaPDF');
+  descargarFacturaManual(): void {
+    const contenido = document.getElementById('factura');
     if (!contenido) return;
 
     html2canvas(contenido).then((canvas) => {
