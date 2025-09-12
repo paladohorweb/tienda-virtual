@@ -1,113 +1,52 @@
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-  <div class="container">
-    <a class="navbar-brand" routerLink="/">Tienda Virtual</a>
-    <button class="navbar-toggler" type="button" (click)="toggleNavbar()">
-      <span class="navbar-toggler-icon"></span>
+<!-- Barra superior -->
+<nav class="top-navbar bg-dark text-white d-flex justify-content-between align-items-center px-3">
+  <div class="d-flex align-items-center">
+    <button *ngIf="isAuthenticated" class="btn btn-outline-light me-3" (click)="toggleSidebar()">
+      <i class="bi bi-list fs-3"></i>
     </button>
-    <div #navbarNav class="collapse navbar-collapse">
-      <ul class="navbar-nav ms-auto">
-        <li class="nav-item">
-          <a class="nav-link" routerLink="/" (click)="closeNavbar()">Inicio</a>
-        </li>
-        <!-- Para usuarios normales -->
-        <li class="nav-item" *ngIf="isAuthenticated && esUser()">
-          <a class="nav-link" routerLink="/ventas">Mis Compras</a>
-        </li>
+    <a class="navbar-brand text-white" routerLink="/">Tienda Virtual</a>
+  </div>
 
-        <!-- Para administradores -->
-        <li class="nav-item"  *ngIf="isAuthenticated && esAdmin()">
-          <a class="nav-link" routerLink="/admin/ventas">Ventas</a>
-        </li>
-        <li class="nav-item" *ngIf="isAuthenticated && esUser()">
-          <a class="nav-link" routerLink="/creditos" (click)="closeNavbar()">
-            Mis Créditos</a
-          >
-        </li>
+  <div>
+    <ng-container *ngIf="isAuthenticated && usuario">
+      <span class="me-3">
+        👋 Hola, {{ usuario.nombre || usuario.email }}
+        <span *ngIf="esAdmin()" class="badge bg-warning text-dark ms-1">Admin</span>
+      </span>
+      <button class="btn btn-outline-danger btn-sm" (click)="logout()">Cerrar sesión</button>
+    </ng-container>
 
-        <li class="nav-item" *ngIf="isAuthenticated && esAdmin()">
-          <a
-            class="nav-link"
-            routerLink="/admin/inventario"
-            (click)="closeNavbar()"
-            >Inventarios</a
-          >
-        </li>
-
-        <li class="nav-item" *ngIf="isAuthenticated && esAdmin()">
-          <a
-            class="nav-link"
-            routerLink="/admin/productos"
-            (click)="closeNavbar()"
-            >Panel Admin Productos</a
-          >
-        </li>
-
-        <li class="nav-item" *ngIf="isAuthenticated && esAdmin()">
-          <a
-            class="nav-link"
-            routerLink="/admin/creditos"
-            (click)="closeNavbar()"
-            >Panel Admin Creditos</a
-          >
-        </li>
-        <li class="nav-item" *ngIf="isAuthenticated && esAdmin()">
-          <a
-            class="nav-link"
-            routerLink="/admin/usuarios"
-            (click)="closeNavbar()"
-            >Usuarios</a
-          >
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" routerLink="/products" (click)="closeNavbar()"
-            >Productos</a
-          >
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" routerLink="/pedidos" (click)="closeNavbar()"
-            >Pedidos</a
-          >
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" routerLink="/cart" (click)="closeNavbar()"
-            >Carrito</a
-          >
-        </li>
-
-        <!-- usuario-->
-        <li class="nav-item" *ngIf="isAuthenticated && usuario">
-          <span class="nav-link disabled">
-            👋 Hola, {{ usuario.nombre || usuario.email }}
-            <span *ngIf="esAdmin()" class="badge bg-warning text-dark ms-2"
-              >Admin</span
-            >
-          </span>
-        </li>
-        <!-- 🔓 Mostrar solo si NO está autenticado -->
-        <li class="nav-item" *ngIf="!isAuthenticated">
-          <a class="nav-link" routerLink="/login" (click)="closeNavbar()"
-            >Ingresar</a
-          >
-        </li>
-        <li class="nav-item" *ngIf="!isAuthenticated">
-          <a class="nav-link" routerLink="/register" (click)="closeNavbar()"
-            >Registrarse</a
-          >
-        </li>
-
-        <!-- <li class="nav-item" *ngIf="isAuthenticated">
-          <a class="nav-link" routerLink="/perfil" (click)="closeNavbar()"
-            >Mi Perfil</a
-          >
-        </li> -->
-
-        <!-- 🔐 Mostrar solo si está autenticado -->
-        <li class="nav-item" *ngIf="isAuthenticated">
-          <a class="nav-link" (click)="logout(); closeNavbar()"
-            >Cerrar sesión</a
-          >
-        </li>
-      </ul>
-    </div>
+    <ng-container *ngIf="!isAuthenticated">
+      <a routerLink="/login" class="btn btn-outline-light btn-sm me-2">Ingresar</a>
+      <a routerLink="/register" class="btn btn-warning btn-sm">Registrarse</a>
+    </ng-container>
   </div>
 </nav>
+
+<!-- Sidebar flotante -->
+<div class="sidebar-overlay" [class.active]="sidebarOpen" (click)="closeSidebar()"></div>
+
+<div class="sidebar" [class.active]="sidebarOpen">
+  <div class="sidebar-header">
+    <h5>Menú</h5>
+    <button class="btn-close btn-close-white" (click)="closeSidebar()"></button>
+  </div>
+
+  <ul class="list-unstyled sidebar-menu">
+    <li><a routerLink="/" (click)="closeSidebar()">🏠 Inicio</a></li>
+    <li><a routerLink="/products" (click)="closeSidebar()">🛒 Productos</a></li>
+    <li><a routerLink="/cart" (click)="closeSidebar()">🛍 Carrito</a></li>
+    <li><a routerLink="/pedidos" (click)="closeSidebar()">📦 Pedidos</a></li>
+
+    <!-- Usuario -->
+    <li *ngIf="isAuthenticated && esUser()"><a routerLink="/ventas" (click)="closeSidebar()">🧾 Mis Compras</a></li>
+    <li *ngIf="isAuthenticated && esUser()"><a routerLink="/creditos" (click)="closeSidebar()">💳 Mis Créditos</a></li>
+
+    <!-- Admin -->
+    <li *ngIf="isAuthenticated && esAdmin()"><a routerLink="/admin/ventas" (click)="closeSidebar()">📊 Ventas</a></li>
+    <li *ngIf="isAuthenticated && esAdmin()"><a routerLink="/admin/inventario" (click)="closeSidebar()">📦 Inventario</a></li>
+    <li *ngIf="isAuthenticated && esAdmin()"><a routerLink="/admin/productos" (click)="closeSidebar()">⚙️ Productos</a></li>
+    <li *ngIf="isAuthenticated && esAdmin()"><a routerLink="/admin/creditos" (click)="closeSidebar()">💰 Créditos</a></li>
+    <li *ngIf="isAuthenticated && esAdmin()"><a routerLink="/admin/usuarios" (click)="closeSidebar()">👥 Usuarios</a></li>
+  </ul>
+</div>

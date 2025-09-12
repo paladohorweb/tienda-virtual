@@ -1,4 +1,4 @@
-import { Component, ViewChild, ElementRef, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
@@ -11,9 +11,9 @@ import { AuthService } from '../../services/auth.service';
   styleUrls: ['./navbar.component.css']
 })
 export class NavbarComponent implements OnInit {
-  @ViewChild('navbarNav', { static: false }) navbarNav!: ElementRef;
   isAuthenticated = false;
   usuario: any = null;
+  sidebarOpen = false;
 
   constructor(private authService: AuthService) {}
 
@@ -28,20 +28,20 @@ export class NavbarComponent implements OnInit {
     return this.usuario?.rol === 'ROLE_ADMIN';
   }
 
-  esUser():boolean {
+  esUser(): boolean {
     return this.usuario?.rol === 'ROLE_USER';
   }
 
   logout() {
     this.authService.logout();
+    this.sidebarOpen = false;
   }
 
-  toggleNavbar() {
-    const navbar = this.navbarNav.nativeElement;
-    navbar.classList.toggle('show');
+  toggleSidebar() {
+    this.sidebarOpen = !this.sidebarOpen;
   }
 
-  closeNavbar() {
-    this.navbarNav.nativeElement.classList.remove('show');
+  closeSidebar() {
+    this.sidebarOpen = false;
   }
 }

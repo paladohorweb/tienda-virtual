@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { AuthService } from '../../../services/auth.service';
 
 @Component({
@@ -15,7 +15,7 @@ export class LoginComponent {
   credentials = { email: '', password: '' };
   errorMessage = '';
 
-  constructor(private authService: AuthService, private router: Router) {}
+  constructor(private authService: AuthService, private router: Router, activateRoute:ActivatedRoute) {}
 
   onSubmit() {
     if (!this.credentials.email || !this.credentials.password) {
