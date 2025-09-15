@@ -1,38 +1,46 @@
 <div class="container py-5">
-  <h2 class="text-center mb-5 display-6">🛍️ Productos Disponibles</h2>
+  <h2 class="text-center mb-5 display-6 fw-bold text-primary">🛍️ Productos Disponibles</h2>
 
   <div class="row g-4">
     <div *ngFor="let product of productosFiltrados" class="col-12 col-sm-6 col-md-4 col-lg-3">
-      <div class="card h-100 shadow-sm rounded-4 border-0 product-card">
+      <div class="card h-100 shadow-lg border-0 rounded-4 product-card">
+        <!-- Imagen con modal -->
         <img
           [src]="product.imagenUrl"
-          class="card-img-top img-fluid rounded-top"
+          class="card-img-top img-fluid rounded-top cursor-pointer"
           alt="{{ product.nombre }}"
+          (click)="abrirImagen(product)"
         />
-        <div class="card-body d-flex flex-column text-center">
-          <h5 class="card-title fw-bold mb-2">{{ product.nombre }}</h5>
-          <p class="card-text text-muted small mb-2">{{ product.descripcion }}</p>
-          <p class="text-success fw-semibold fs-5 mb-2">${{ product.precio }}</p>
 
-          <p *ngIf="product.stock > 0" class="fw-bold text-primary mb-2">Stock: {{ product.stock }}</p>
+        <div class="card-body d-flex flex-column text-center">
+          <h5 class="card-title fw-bold text-dark mb-2">{{ product.nombre }}</h5>
+          <p class="card-text text-muted small mb-2">{{ product.descripcion }}</p>
+          <p class="text-success fw-semibold fs-5 mb-2">
+            {{ product.precio | currency: "USD" }}
+          </p>
+
+          <p *ngIf="product.stock > 0" class="fw-bold text-primary mb-2">✔ Stock: {{ product.stock }}</p>
           <p *ngIf="product.stock === 0" class="fw-bold text-danger mb-2">🚫 Sin stock</p>
 
-          <button
-            class="btn btn-outline-primary w-100 fw-semibold mt-auto"
-            [disabled]="product.stock === 0"
-            (click)="agregarAlCarrito(product)"
-          >
-            🛒 Agregar al Carrito
-          </button>
+          <!-- Botones -->
+          <div class="d-grid gap-2 mt-auto">
+            <button
+              class="btn btn-outline-primary fw-semibold"
+              [disabled]="product.stock === 0"
+              (click)="agregarAlCarrito(product)"
+            >
+              🛒 Agregar al Carrito
+            </button>
 
-              <!-- 👇 Mostrar componente de crédito solo si está autenticado -->
- <button
-  *ngIf="isAuthenticated"
-  class="btn btn-outline-success w-100 fw-semibold mt-2"
-  (click)="abrirModal(product.id, product.precio)"  [disabled]="product.stock === 0">
-  💳 Solicitar Crédito
-</button>
-
+            <button
+              *ngIf="isAuthenticated"
+              class="btn btn-outline-success fw-semibold"
+              (click)="abrirModal(product.id, product.precio)"
+              [disabled]="product.stock === 0"
+            >
+              💳 Solicitar Crédito
+            </button>
+          </div>
         </div>
       </div>
     </div>
@@ -41,13 +49,43 @@
 
 <!-- Botón flotante del carrito -->
 <a
- routerLink="/cart"
-  class="cart-floating-button position-fixed d-flex align-items-center justify-content-center"
+  routerLink="/cart"
+  class="cart-floating-button position-fixed d-flex align-items-center justify-content-center shadow-lg"
   style="z-index: 1050"
 >
-  <i class="bi bi-cart3 fs-4 text-white" ></i>
+  <i class="bi bi-cart3 fs-4 text-white"></i>
   <span class="cart-count badge bg-danger ms-1">{{ totalArticulos }}</span>
 </a>
+
+<!-- Modal Bootstrap para ver imagen -->
+<div
+  class="modal fade"
+  id="imageModal"
+  tabindex="-1"
+  aria-labelledby="imageModalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog modal-dialog-centered modal-lg">
+    <div class="modal-content bg-dark text-center">
+      <div class="modal-header border-0">
+        <h5 class="modal-title text-white" id="imageModalLabel">Vista del Producto</h5>
+        <button
+          type="button"
+          class="btn-close btn-close-white"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+        ></button>
+      </div>
+      <div class="modal-body">
+        <img
+          [src]="imagenSeleccionada"
+          alt="Imagen producto"
+          class="img-fluid rounded shadow-lg"
+        />
+      </div>
+    </div>
+  </div>
+</div>
 
 <!-- Modal para solicitar crédito -->
 <app-modal-solicitar-credito

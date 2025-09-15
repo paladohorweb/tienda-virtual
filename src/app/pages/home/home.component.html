@@ -1,116 +1,55 @@
 <div class="container mt-5">
 
+  <!-- 🔹 Más Vendidos -->
   <h2 class="text-center text-white mb-4">Más Vendidos</h2>
-
-<!-- <div class="netflix-carousel-wrapper">
-  <button class="nav prev" (click)="scroll('left')">&#10094;</button>
-
-  <div class="netflix-carousel" #carousel>
-    <div class="card netflix-card" *ngFor="let product of masVendidos">
-      <img [src]="product.imagenUrl" alt="{{ product.nombre }}">
-      <div class="card-body">
-        <h5>{{ product.nombre }}</h5>
-        <p class="text-primary fw-bold">{{ product.precio | currency: 'USD' }}</p>
-      </div>
-    </div>
-  </div>
-
-  <button class="nav next" (click)="scroll('right')">&#10095;</button>
-</div> -->
-
-
-
-
   <div class="netflix-carousel-wrapper">
-  <button class="nav prev" (click)="scroll('left')">&#10094;</button>
-
-  <div class="netflix-carousel" #carousel (mouseenter)="pauseScroll()" (mouseleave)="resumeScroll()">
-    <div class="card netflix-card" *ngFor="let product of masVendidos">
-      <img [src]="product.imagenUrl" alt="{{ product.nombre }}">
-      <div class="card-body">
-        <h5>{{ product.nombre }}</h5>
-        <p class="text-primary fw-bold">{{ product.precio | currency: 'USD' }}</p>
-      </div>
-    </div>
-  </div>
-
-  <button class="nav next" (click)="scroll('right')">&#10095;</button>
-</div>
-
-
-
-
-
-
-
-
-
-
-
-
-  <!-- 🔹 Carrusel tipo Netflix -->
-<h2 class="mb-4 text-center text-white">Productos Destacados</h2>
-
-<div class="netflix-carousel-container">
-  <button class="btn-scroll left" (click)="scrollLeft(carruselDestacados)">‹</button>
-
-  <div class="netflix-carousel" #carruselDestacados>
-    <div class="card-carousel" *ngFor="let product of featuredProducts">
-      <img [src]="product.imagenUrl" alt="{{ product.nombre }}" />
-      <div class="info">
-        <h5>{{ product.nombre }}</h5>
-        <p>{{ product.descripcion }}</p>
-        <p class="precio">{{ product.precio | currency: 'USD' }}</p>
-        <a routerLink="/products" class="btn btn-outline-light btn-sm">Ver más</a>
-      </div>
-    </div>
-  </div>
-
-  <button class="btn-scroll right" (click)="scrollRight(carruselDestacados)">›</button>
-</div>
-
-
-  <!-- 🔹 Carrusel de Productos Destacados -->
-  <h3 class="mb-4 text-center  text-white">Productos</h3>
-  <div id="carouselDestacados" class="carousel slide mb-5" data-bs-ride="carousel">
-    <div class="carousel-inner">
-      <div class="carousel-item" *ngFor="let product of featuredProducts; let i = index" [class.active]="i === 0">
-        <div class="d-flex justify-content-center">
-          <div class="card" style="width: 24rem;">
-            <img [src]="product.imagenUrl" class="card-img-top" [alt]="product.nombre" style="height: 250px; object-fit: cover;">
-            <div class="card-body text-center">
-              <h5 class="card-title">{{ product.nombre }}</h5>
-              <p class="card-text">{{ product.descripcion }}</p>
-              <p class="text-primary fw-bold">{{ product.precio| currency: 'USD' }}</p>
-              <a routerLink="/products" class="btn btn-outline-primary btn-sm">Ver más</a>
-            </div>
-          </div>
+    <button class="nav prev" (click)="scroll('left')">&#10094;</button>
+    <div class="netflix-carousel" #carousel (mouseenter)="pauseScroll()" (mouseleave)="resumeScroll()">
+      <div class="card netflix-card" *ngFor="let product of masVendidos">
+        <img [src]="product.imagenUrl" alt="{{ product.nombre }}">
+        <div class="card-body text-center">
+          <h5 class="card-title">{{ product.nombre }}</h5>
+          <p class="precio">{{ product.precio | currency: 'USD' }}</p>
         </div>
       </div>
     </div>
-    <button class="carousel-control-prev" type="button" data-bs-target="#carouselDestacados" data-bs-slide="prev">
-      <span class="carousel-control-prev-icon"></span>
-    </button>
-    <button class="carousel-control-next" type="button" data-bs-target="#carouselDestacados" data-bs-slide="next">
-      <span class="carousel-control-next-icon"></span>
-    </button>
+    <button class="nav next" (click)="scroll('right')">&#10095;</button>
   </div>
 
-  <!-- 🔹 Sección de Ropa -->
-  <h2 class="mb-4 text-center  text-white">Ropa</h2>
+  <!-- 🔹 Productos Destacados -->
+  <h2 class="text-center text-white mb-4 mt-5">Productos Destacados</h2>
+  <div class="netflix-carousel-container">
+    <button class="btn-scroll left" (click)="scrollLeft(carruselDestacados)">‹</button>
+    <div class="netflix-carousel" #carruselDestacados>
+      <div class="card-carousel" *ngFor="let product of featuredProducts">
+        <img [src]="product.imagenUrl" alt="{{ product.nombre }}">
+        <div class="info text-center">
+          <h5 class="card-title">{{ product.nombre }}</h5>
+          <p class="card-text">{{ product.descripcion }}</p>
+          <p class="precio">{{ product.precio | currency:'USD' }}</p>
+          <a routerLink="/products" class="btn btn-product">Ver más</a>
+        </div>
+      </div>
+    </div>
+    <button class="btn-scroll right" (click)="scrollRight(carruselDestacados)">›</button>
+  </div>
+
+  <!-- 🔹 Ropa -->
+  <h2 class="text-center text-white mb-4 mt-5">Ropa</h2>
   <div class="row row-cols-1 row-cols-md-3 g-4">
     <div class="col" *ngFor="let ropa of clothingProducts">
       <div class="card h-100">
         <img [src]="ropa.image" class="card-img-top" [alt]="ropa.name" style="height: 250px; object-fit: cover;">
-        <div class="card-body">
+        <div class="card-body text-center">
           <h5 class="card-title">{{ ropa.name }}</h5>
           <p class="card-text">{{ ropa.description }}</p>
           <span class="badge bg-success mb-2">{{ ropa.price | currency:'USD' }}</span>
           <div class="d-grid">
-            <a routerLink="/products" class="btn btn-sm btn-outline-white">Ver producto</a>
+            <a routerLink="/products" class="btn btn-product">Ver producto</a>
           </div>
         </div>
       </div>
     </div>
   </div>
+
 </div>

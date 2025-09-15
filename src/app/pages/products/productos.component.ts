@@ -15,16 +15,22 @@ import Swal from 'sweetalert2';
   standalone: true,
   imports: [CommonModule, FormsModule, ModalSolicitarCreditoComponent],
   templateUrl: './productos.component.html',
-  styleUrls: ['./productos.component.css'], // Asegúrate de tenerlo creado
+  styleUrls: ['./productos.component.css'],
 })
 export class ProductosComponent implements OnInit {
   productos: Producto[] = [];
   productosFiltrados: Producto[] = [];
   filtro: string = '';
-  totalArticulos: number = 0; // Contador del carrito
+  totalArticulos: number = 0;
   isAuthenticated = false;
   productoSeleccionadoId!: number;
   montoSolicitado!: number;
+
+  // 🔹 Para el modal de imagen
+
+  imagenSeleccionada: string = '';
+
+
 
   constructor(
     private productoService: ProductoService,
@@ -59,7 +65,6 @@ export class ProductosComponent implements OnInit {
         icon: 'error',
         draggable: true,
       });
-      // alert('❌ Debes iniciar sesión para agregar productos al carrito');
       this.router.navigate(['/login']);
       return;
     }
@@ -71,9 +76,7 @@ export class ProductosComponent implements OnInit {
           text: 'Continua!',
           icon: 'success',
         });
-        // alert('✅ Producto agregado al carrito');
-        this.obtenerCantidadArticulos(); // actualizar contador
-        //this.router.navigate(['/carrito']);
+        this.obtenerCantidadArticulos();
       },
       error: (err) => {
         console.error('❌ Error al agregar al carrito', err);
@@ -95,8 +98,21 @@ export class ProductosComponent implements OnInit {
 
   abrirModal(productId: number, precio: number) {
     this.productoSeleccionadoId = productId;
-    this.montoSolicitado = precio; // ✅ pasar el precio como monto sugerido
+    this.montoSolicitado = precio;
     const modal = new bootstrap.Modal(document.getElementById('modalCredito')!);
     modal.show();
   }
+
+  // 🔹 Nuevo: Modal para ver imagen grande
+  abrirModalImagen(imagenUrl: string) {
+    this.imagenSeleccionada = imagenUrl;
+    const modal = new bootstrap.Modal(document.getElementById('modalImagen')!);
+    modal.show();
+  }
+
+  abrirImagen(product: Producto) {
+  this.imagenSeleccionada = product.imagenUrl;
+  const modal = new bootstrap.Modal(document.getElementById('imageModal')!);
+  modal.show();
+}
 }
